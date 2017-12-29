@@ -1,0 +1,35 @@
+<h1><%= @band.name %></h1>
+<h2><%= @band.genre.name %> - <%= @band.genre.style %></h2>
+
+<h3>Members</h3>
+
+<div class="row">
+  <%#= @band.genre.genre_skills.inspect %>
+  <% @band.genre.genre_skills.each do |skill| %>
+    <% member = @band.member_bands.where(skill_id: skill.skill.id).first.try(:member) %>
+
+  <div class="col-sm-3">
+    <div class="card">
+      <% if member.present? %>
+        <div class="card-header"><%= skill.skill.name %></div>
+        <%= image_tag member.avatar, class: 'card-img-top' %>
+        <div class="card-body">
+          <h5 class="card-title"><%= member.name %></h5>
+          <h6><%= gender(member.gender) %>, <%= member.age %></h6>
+          <%= render partial: "skills/progress", locals: {skill_name: skill.skill.name, skill_level: member.skill_primary_level} %>
+          <%= render partial: "skills/progress", locals: {skill_name: "Looks", skill_level: member.trait_looks} %>
+          <%= render partial: "skills/progress", locals: {skill_name: "Creativity", skill_level: member.trait_creativity} %>
+          <%= render partial: "skills/progress", locals: {skill_name: "Ego", skill_level: member.trait_ego, negative: true} %>
+        </div>
+      <% else %>
+        <div class="card-body">
+          <h4 class="card-title"><%= skill.skill.name %></h4>
+          <p class="card-text"></p>
+          <%= link_to "Hire this member", band_skill_path(band_id: @band.id, id: skill.skill.id), class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <% end %>
+</div>
