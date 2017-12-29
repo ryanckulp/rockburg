@@ -1,13 +1,65 @@
 <h1><%= @band.name %></h1>
 <h2><%= @band.genre.name %> - <%= @band.genre.style %></h2>
+<h3>Fans: <%= @band.fans %> &bull; Buzz: <%= @band.buzz %></h3>
+<hr/>
+<div class="row">
+  <div class="col-sm-6">
+    <h3>Actions</h3>
+    <div class="list-group">
+      <% if @activity %>
+        Currently: <%= @activity.action %> for <%= distance_of_time_in_words(Time.now, @activity.ends_at, include_seconds: true) %>
+      <% else %>
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_practice">Practice <br /><small>Improves the skill level of each member</small></button>
 
+        <div class="modal fade" id="modal_practice" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="">How long would you like to practice?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>The longer you practice the more skill points you may receive.</p>
+                <div class="list-group">
+                  <%= link_to "1 hour", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '1'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "2 hours", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '2'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "6 hours", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '6'), class: 'list-group-item list-group-item-action' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <%= link_to "Write a song".html_safe, new_band_activity_path(band_id: @band.id, type: 'write_song'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Record a song".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_song'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Record an album".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_album'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Promote <br /><small>Generates buzz, making album sales and tours more successful</small><".html_safe, new_band_activity_path(band_id: @band.id, type: 'promote'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Go on tour".html_safe, new_band_activity_path(band_id: @band.id, type: 'tour'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Rest".html_safe, new_band_activity_path(band_id: @band.id, type: 'rest'), class: 'list-group-item list-group-item-action' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <h3>News</h3>
+    <ul>
+    <% @band.happenings.order('created_at DESC').each do |happening| %>
+      <li><%= happening.what %> <small><%= time_ago_in_words(happening.created_at) %> ago</small></li>
+    <% end %>
+    </ol>
+  </div>
+</div>
+
+<hr/>
 <h3>Members</h3>
 
 <div class="row">
-  <%#= @band.genre.genre_skills.inspect %>
   <% @band.genre.genre_skills.each do |skill| %>
     <% member = @band.member_bands.where(skill_id: skill.skill.id).first.try(:member) %>
-
   <div class="col-sm-3">
     <div class="card">
       <% if member.present? %>
@@ -17,6 +69,7 @@
           <h5 class="card-title"><%= member.name %></h5>
           <h6><%= gender(member.gender) %>, <%= member.age %></h6>
           <%= render partial: "skills/progress", locals: {skill_name: skill.skill.name, skill_level: member.skill_primary_level} %>
+          <%= render partial: "skills/progress", locals: {skill_name: "Fatigue", skill_level: member.trait_fatigue, negative: true} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Looks", skill_level: member.trait_looks} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Creativity", skill_level: member.trait_creativity} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Ego", skill_level: member.trait_ego, negative: true} %>

@@ -16,11 +16,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="#">Dashboard</a>
-          <a class="nav-item nav-link" href="#">Bands</a>
+          <%= link_to "Dashboard", root_path, class: 'nav-item nav-link' %>
         </div>
       </div>
-      <%= link_to "Sign Up", root_path, class: 'btn btn-dark' %>
+      <% if manager_signed_in? %>
+        <%= link_to "Sign Out", destroy_manager_session_path, class: 'btn btn-dark' %>
+      <% else %>
+        <%= link_to "Sign Up", root_path, class: 'btn btn-dark' %>
+      <% end %>
     </header>
 
     <p class="notice"><%= notice %></p>

@@ -3,4 +3,6 @@ class Band < ApplicationRecord
   belongs_to :genre
   has_many :member_bands
   has_many :members, through: :member_bands
+  has_many :activities
+  has_many :happenings
 end

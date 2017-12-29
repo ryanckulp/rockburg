@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171229014409) do
+ActiveRecord::Schema.define(version: 20171229204820) do
+
+  create_table "activities", force: :cascade do |t|
+    t.integer "band_id"
+    t.string "action"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band_id"], name: "index_activities_on_band_id"
+  end
 
   create_table "bands", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -18,6 +28,8 @@ ActiveRecord::Schema.define(version: 20171229014409) do
     t.datetime "updated_at", null: false
     t.integer "manager_id"
     t.integer "genre_id"
+    t.integer "fans", default: 0
+    t.integer "buzz", default: 0
     t.index ["genre_id"], name: "index_bands_on_genre_id"
     t.index ["manager_id"], name: "index_bands_on_manager_id"
   end
@@ -38,6 +50,14 @@ ActiveRecord::Schema.define(version: 20171229014409) do
     t.integer "max_members"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "happenings", force: :cascade do |t|
+    t.integer "band_id"
+    t.string "what"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band_id"], name: "index_happenings_on_band_id"
   end
 
   create_table "managers", force: :cascade do |t|

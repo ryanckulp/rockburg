@@ -24,6 +24,7 @@ class BandsController < ApplicationController
 
   def show
     @band = Band.find(params[:id])
+    @activity = @band.activities.current_activity.try(:last)
   end
 
   private
