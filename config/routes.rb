@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   resources :bands do
     resources :activities
+    resources :songs
     resources :skills do
       resources :members do
         member do

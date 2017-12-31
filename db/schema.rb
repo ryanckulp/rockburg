@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171229204820) do
+ActiveRecord::Schema.define(version: 20171230170206) do
 
   create_table "activities", force: :cascade do |t|
     t.integer "band_id"
@@ -50,6 +50,18 @@ ActiveRecord::Schema.define(version: 20171229204820) do
     t.integer "max_members"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "gigs", force: :cascade do |t|
+    t.integer "band_id"
+    t.integer "venue_id"
+    t.integer "fans_gained"
+    t.integer "money_made"
+    t.date "played_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band_id"], name: "index_gigs_on_band_id"
+    t.index ["venue_id"], name: "index_gigs_on_venue_id"
   end
 
   create_table "happenings", force: :cascade do |t|
@@ -115,8 +127,57 @@ ActiveRecord::Schema.define(version: 20171229204820) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "recordings", force: :cascade do |t|
+    t.integer "studio_id"
+    t.integer "band_id"
+    t.string "type"
+    t.string "name"
+    t.integer "quality"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band_id"], name: "index_recordings_on_band_id"
+    t.index ["studio_id"], name: "index_recordings_on_studio_id"
+  end
+
   create_table "skills", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "song_recordings", force: :cascade do |t|
+    t.integer "recording_id"
+    t.integer "song_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recording_id"], name: "index_song_recordings_on_recording_id"
+    t.index ["song_id"], name: "index_song_recordings_on_song_id"
+  end
+
+  create_table "songs", force: :cascade do |t|
+    t.integer "band_id"
+    t.string "name"
+    t.integer "quality", default: 0
+    t.integer "streams", default: 0
+    t.string "status", default: "writing"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["band_id"], name: "index_songs_on_band_id"
+  end
+
+  create_table "studios", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "engineer_name"
+    t.integer "cost"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "venues", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.integer "capacity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

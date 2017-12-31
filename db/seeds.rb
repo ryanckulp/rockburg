@@ -6,6 +6,22 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+Venue.delete_all
+Venue.create!([
+    {name: "The Hole", description: "It's a hole. And you play in it.", capacity: 50},
+    {name: "Sneaky Pete's", description: "Watch out for that Pete! He sneaky!", capacity: 250},
+    {name: "Crazy 8's", description: "It's got a mechanical bull. Which is a nice touch.", capacity: 500},
+    {name: "The Amphitheatre", description: "You have arrived, my friend!", capacity: 5000}
+])
+
+Studio.delete_all
+Studio.create!([
+    {name: "Alien Beans Studios", description: "", engineer_name: Faker::FunnyName.name, cost: 100},
+    {name: "Dark Horse Recording Studio", description: "", engineer_name: Faker::FunnyName.name, cost: 500},
+    {name: "Studio 19", description: "", engineer_name: Faker::FunnyName.name, cost: 5000},
+    {name: "Pet Sounds Studio", description: "", engineer_name: Faker::FunnyName.name, cost: 10000},
+])
+
 200.times {
 Member.create!([
   {

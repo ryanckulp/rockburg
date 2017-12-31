@@ -5,4 +5,6 @@ class Band < ApplicationRecord
   has_many :members, through: :member_bands
   has_many :activities
   has_many :happenings
+  has_many :songs
+  has_many :gigs
 end

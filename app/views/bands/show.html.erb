@@ -1,6 +1,28 @@
 <h1><%= @band.name %></h1>
 <h2><%= @band.genre.name %> - <%= @band.genre.style %></h2>
-<h3>Fans: <%= @band.fans %> &bull; Buzz: <%= @band.buzz %></h3>
+<h3>Fans: <%= @band.fans %> &bull; Buzz: <%= @band.buzz %> &bull; Songs: <a href="#" type="" class="" data-toggle="modal" data-target="#modal_songs"><%= @band.songs.count %></a></h3>
+
+<div class="modal fade" id="modal_songs" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Your songs!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Here are all the songs you've written.</p>
+        <ul>
+          <% @band.songs.each do |song| %>
+          <li><%= song.name %> (Quality: <%= song.quality %>)</li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <hr/>
 <div class="row">
   <div class="col-sm-6">
@@ -9,6 +31,7 @@
       <% if @activity %>
         Currently: <%= @activity.action %> for <%= distance_of_time_in_words(Time.now, @activity.ends_at, include_seconds: true) %>
       <% else %>
+        <!-- Practice -->
         <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_practice">Practice <br /><small>Improves the skill level of each member</small></button>
 
         <div class="modal fade" id="modal_practice" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
@@ -32,14 +55,112 @@
           </div>
         </div>
 
+        <!-- Write song -->
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_write_song">Write a song <br /><small>You need songs to play gigs and start growing your fan base!</small></button>
+
+        <div class="modal fade" id="modal_write_song" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="">How long would you like to work on your song?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>The longer you spend on your song, the higher quality it will be.</p>
+                <div class="list-group">
+                  <%= link_to "1 hour", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '1'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "2 hours", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '2'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "6 hours", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '6'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "12 hours", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '12'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "1 day", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '24'), class: 'list-group-item list-group-item-action' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Play gig -->
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_play_gig">Play a gig <br /><small>Gigs help you gain fans and make some money.</small></button>
+
+        <div class="modal fade" id="modal_play_gig" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">What venue would you like to play?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container-fluid">
+                  <p>Choose a venue carefully! If you choose a high-cap venue but aren't able to sell many tickets, it will hurt the perception (and future fans) of your band.</p>
+                  <p><b>Playing a gig takes 24 hours.</b></p>
+                  <div class="row">
+                    <% Venue.order('capacity ASC').each do |venue| %>
+                    <div class="col-md-6 mb-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <h5 class="card-title"><%= venue.name %></h5>
+                          <h6 class="card-subtitle mb-2 text-muted">Capacity: <%= venue.capacity %></h6>
+                          <%= link_to "Play this venue".html_safe, new_band_activity_path(band_id: @band.id, type: 'gig', venue: venue.id), class: 'card-link' %>
+                        </div>
+                      </div>
+                    </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
 
 
-        <%= link_to "Write a song".html_safe, new_band_activity_path(band_id: @band.id, type: 'write_song'), class: 'list-group-item list-group-item-action' %>
-        <%= link_to "Record a song".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_song'), class: 'list-group-item list-group-item-action' %>
+        <!-- Record a single -->
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_record_single">Record a single <br /><small>Singles provide a source of buzz and money.</small></button>
+
+        <div class="modal fade" id="modal_record_single" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <%= form_tag("/bands/#{@band.id}/activities/new?type=record_single", method: "get") do %>
+              <div class="modal-header">
+                <h5 class="modal-title">What studio would you like to record at?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container-fluid">
+                  <h6>Select a song to record</h6>
+                  <div class="form-group">
+                    <% @band.songs.each do |song| %>
+                    <div class="form-check">
+                      <%= radio_button_tag(:song_id, song.id, false, class: '') %>
+                      <label class="form-check-label">
+                        <%= song.name %>
+                      </label>
+                    </div>
+                    <% end %>
+                  </ul>
+                  </div>
+                  <div class="form-group">
+                    <h6>Select a studio to record at</h6>
+                    <%= collection_select(:studio, :studio_id, Studio.all, :id, :full_studio, class: 'form-control') %>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <%= submit_tag("Start Recording", class: 'btn btn-primary') %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
         <%= link_to "Record an album".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_album'), class: 'list-group-item list-group-item-action' %>
-        <%= link_to "Promote <br /><small>Generates buzz, making album sales and tours more successful</small><".html_safe, new_band_activity_path(band_id: @band.id, type: 'promote'), class: 'list-group-item list-group-item-action' %>
-        <%= link_to "Go on tour".html_safe, new_band_activity_path(band_id: @band.id, type: 'tour'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Release a single or album".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_album'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Promote <br /><small>Generates buzz, making album sales and gigs more successful</small>".html_safe, new_band_activity_path(band_id: @band.id, type: 'promote'), class: 'list-group-item list-group-item-action' %>
         <%= link_to "Rest".html_safe, new_band_activity_path(band_id: @band.id, type: 'rest'), class: 'list-group-item list-group-item-action' %>
       <% end %>
     </div>
