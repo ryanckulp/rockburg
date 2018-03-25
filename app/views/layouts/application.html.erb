@@ -20,7 +20,12 @@
         </div>
       </div>
       <% if manager_signed_in? %>
-        <%= link_to "Sign Out", destroy_manager_session_path, class: 'btn btn-dark' %>
+      <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+        <li class="nav-item">
+          <a href="#" role="button" class="text-light nav-link btn btn-success">Money <span class="badge badge-light"><%= number_to_currency(current_manager.balance, precision: 0, unit: '§') %></span></a>
+        </li>
+        <li class="nav-item"><%= link_to "Sign Out", destroy_manager_session_path, class: 'nav-link' %></li>
+      </ul>
       <% else %>
         <%= link_to "Sign Up", root_path, class: 'btn btn-dark' %>
       <% end %>

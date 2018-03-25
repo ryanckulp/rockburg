@@ -9,7 +9,7 @@
       <div class="card-body">
         <h5 class="card-title"><%= member.name %></h5>
         <h6><%= gender(member.gender) %>, <%= member.age %></h6>
-        <h4 class="text-success"><%= number_to_currency(member.cost_generator, precision: 0, unit: '§') %></h4>
+        <h4 class="text-success"><%= number_to_currency(member.cost_generator, precision: 0, unit: '§') %><small>/day</small></h4>
         <%= render partial: "progress", locals: {skill_name: "Instrument", skill_level: member.skill_primary_level} %>
         <%= render partial: "progress", locals: {skill_name: "Creativity", skill_level: member.trait_creativity} %>
         <%= render partial: "progress", locals: {skill_name: "Looks", skill_level: member.trait_looks} %>
@@ -17,7 +17,7 @@
 
       </div>
       <div class="card-footer text-center">
-        <%= link_to "Hire #{member.name} <br /> <b>#{number_to_currency(member.cost_generator, precision: 0, unit: '§')}</b>".html_safe, hire_band_skill_member_path(band_id: @band.id, skill_id: @skill.id, id: member.id), class: 'btn btn-primary' %>
+        <%= link_to "Hire #{member.name} <br /> <b>#{number_to_currency(member.cost_generator, precision: 0, unit: '§')}<small>/day</small></b>".html_safe, hire_band_skill_member_path(band_id: @band.id, skill_id: @skill.id, id: member.id), class: 'btn btn-primary' %>
       </div>
     </div>
   </div>

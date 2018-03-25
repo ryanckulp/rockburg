@@ -14,6 +14,7 @@ class MembersController < ApplicationController
   def hire
     @member_band = MemberBand.new(band_id: params[:band_id], skill_id: params[:skill_id], member_id: params[:id], joined_band_at: Time.now)
     if @member_band.save
+      current_manager.financials.create!(amount: -@member_band.member.cost_generator, band_id: params[:band_id])
       redirect_to band_path(params[:band_id]), alert: "Member hired successfully."
     else
         redirect_to new_band_path, alert: "Error hiring member."

@@ -159,9 +159,6 @@
           </div>
         </div>
         <%= link_to "Record an album".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_album'), class: 'list-group-item list-group-item-action' %>
-        <%= link_to "Release a single or album".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_album'), class: 'list-group-item list-group-item-action' %>
-        <%= link_to "Promote <br /><small>Generates buzz, making album sales and gigs more successful</small>".html_safe, new_band_activity_path(band_id: @band.id, type: 'promote'), class: 'list-group-item list-group-item-action' %>
-        <%= link_to "Rest".html_safe, new_band_activity_path(band_id: @band.id, type: 'rest'), class: 'list-group-item list-group-item-action' %>
       <% end %>
     </div>
   </div>
@@ -189,6 +186,7 @@
         <div class="card-body">
           <h5 class="card-title"><%= member.name %></h5>
           <h6><%= gender(member.gender) %>, <%= member.age %></h6>
+          <h4 class="text-success"><%= number_to_currency(member.cost_generator, precision: 0, unit: '§') %><small>/day</small></h4>
           <%= render partial: "skills/progress", locals: {skill_name: skill.skill.name, skill_level: member.skill_primary_level} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Fatigue", skill_level: member.trait_fatigue, negative: true} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Looks", skill_level: member.trait_looks} %>

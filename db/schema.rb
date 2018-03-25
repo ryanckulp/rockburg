@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171230170206) do
+ActiveRecord::Schema.define(version: 20180105193010) do
 
   create_table "activities", force: :cascade do |t|
     t.integer "band_id"
@@ -32,6 +32,19 @@ ActiveRecord::Schema.define(version: 20171230170206) do
     t.integer "buzz", default: 0
     t.index ["genre_id"], name: "index_bands_on_genre_id"
     t.index ["manager_id"], name: "index_bands_on_manager_id"
+  end
+
+  create_table "financials", force: :cascade do |t|
+    t.integer "manager_id", null: false
+    t.integer "band_id"
+    t.integer "activity_id"
+    t.integer "amount", default: 0
+    t.integer "balance", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["activity_id"], name: "index_financials_on_activity_id"
+    t.index ["band_id"], name: "index_financials_on_band_id"
+    t.index ["manager_id"], name: "index_financials_on_manager_id"
   end
 
   create_table "genre_skills", force: :cascade do |t|
