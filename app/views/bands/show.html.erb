@@ -28,6 +28,7 @@
   <div class="col-sm-6">
     <h3>Actions</h3>
     <div class="list-group">
+      <% if @band.members.present? %>
       <% if @activity %>
         Currently: <%= @activity.action %> for <%= distance_of_time_in_words(Time.now, @activity.ends_at, include_seconds: true) %>
       <% else %>
@@ -159,6 +160,9 @@
           </div>
         </div>
         <%= link_to "Record an album".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_album'), class: 'list-group-item list-group-item-action' %>
+      <% end %>
+      <% else %>
+        You need to hire some band members!
       <% end %>
     </div>
   </div>

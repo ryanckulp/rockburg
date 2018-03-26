@@ -1,5 +1,5 @@
 class Financial < ApplicationRecord
-  belongs_to :band
+  belongs_to :band, optional: true
   has_many :activities
   belongs_to :manager
 

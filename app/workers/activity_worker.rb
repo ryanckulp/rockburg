@@ -66,7 +66,7 @@ class ActivityWorker
       gig.update_attributes(fans_gained: new_fans)
       @band.happenings.create(what: "You gained #{new_fans} new fans at your gig!")
     when 'record_single'
-      
+
     end
   end
 end
