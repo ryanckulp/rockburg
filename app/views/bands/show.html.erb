@@ -1,6 +1,6 @@
 <h1><%= @band.name %></h1>
 <h2><%= @band.genre.name %> - <%= @band.genre.style %></h2>
-<h3>Fans: <%= @band.fans %> &bull; Buzz: <%= @band.buzz %> &bull; Songs: <a href="#" type="" class="" data-toggle="modal" data-target="#modal_songs"><%= @band.songs.count %></a></h3>
+<h3>Fans: <%= @band.fans %> &bull; Buzz: <%= @band.buzz %> &bull; Songs: <a href="#" type="" class="" data-toggle="modal" data-target="#modal_songs"><%= @band.songs.count %></a> &bull; Recordings: <a href="#" type="" class="" data-toggle="modal" data-target="#modal_recordings"><%= @band.recordings.count %></a></h3>
 
 <div class="modal fade" id="modal_songs" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -16,6 +16,27 @@
         <ul>
           <% @band.songs.each do |song| %>
           <li><%= song.name %> (Quality: <%= song.quality %>)</li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal_recordings" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Your recordings!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Here are all the songs you've recorded.</p>
+        <ul>
+          <% @band.recordings.each do |recording| %>
+          <li><%= recording.name %> (Quality: <%= recording.quality %>)</li>
           <% end %>
         </ul>
       </div>
@@ -120,12 +141,13 @@
 
 
         <!-- Record a single -->
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_record_single">Record a single <br /><small>Singles provide a source of buzz and money.</small></button>
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_record_single">Record a single <br /><small>Recording a single is a chance to improve a song and get it ready to release!</small></button>
 
         <div class="modal fade" id="modal_record_single" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-              <%= form_tag("/bands/#{@band.id}/activities/new?type=record_single", method: "get") do %>
+              <%= form_tag("/bands/#{@band.id}/activities/new", method: "get") do %>
+              <%= hidden_field_tag 'type', 'record_single' %>
               <div class="modal-header">
                 <h5 class="modal-title">What studio would you like to record at?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -140,7 +162,7 @@
                     <div class="form-check">
                       <%= radio_button_tag(:song_id, song.id, false, class: '') %>
                       <label class="form-check-label">
-                        <%= song.name %>
+                        <%= song.name %> (Quality: <%= song.quality %>)
                       </label>
                     </div>
                     <% end %>
@@ -149,6 +171,10 @@
                   <div class="form-group">
                     <h6>Select a studio to record at</h6>
                     <%= collection_select(:studio, :studio_id, Studio.all, :id, :full_studio, class: 'form-control') %>
+                  </div>
+                  <div class="form-group">
+                    <h6>What would you like to name this recording?</h6>
+                    <%= text_field_tag('studio[name]', '', class: 'form-control') %>
                   </div>
                 </div>
               </div>
@@ -160,6 +186,8 @@
           </div>
         </div>
         <%= link_to "Record an album".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_album'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Release single or album".html_safe, new_band_activity_path(band_id: @band.id, type: 'release'), class: 'list-group-item list-group-item-action' %>
+        <%= link_to "Rest".html_safe, new_band_activity_path(band_id: @band.id, type: 'rest'), class: 'list-group-item list-group-item-action' %>
       <% end %>
       <% else %>
         You need to hire some band members!
@@ -168,7 +196,7 @@
   </div>
   <div class="col-sm-6">
     <h3>News</h3>
-    <ul>
+    <ul style="max-height:375px;overflow:auto;">
     <% @band.happenings.order('created_at DESC').each do |happening| %>
       <li><%= happening.what %> <small><%= time_ago_in_words(happening.created_at) %> ago</small></li>
     <% end %>

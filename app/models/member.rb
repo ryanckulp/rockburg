@@ -43,7 +43,7 @@ class Member < ApplicationRecord
     full_salary = high_salary * (points.to_f / possible_points.to_f)
     ego_reduction = full_salary * ego_weight
 
-    full_salary - ego_reduction
+    (full_salary - ego_reduction).round
   end
 
   def avatar

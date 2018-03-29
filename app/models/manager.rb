@@ -6,6 +6,7 @@ class Manager < ApplicationRecord
 
   has_many :bands
   has_many :financials
+  has_many :members, through: :bands
 
   after_create :give_starting_balance
 

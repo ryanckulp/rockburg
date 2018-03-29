@@ -25,8 +25,15 @@ class ActivitiesController < ApplicationController
       end_at = Time.now + hours.seconds
       @activity = Activity.new(band_id: params[:band_id], action: 'record_single', starts_at: Time.now, ends_at: end_at)
 
-      recording = @band.recordings.create(studio_id: params[:studio][:studio_id], type: 'single')
-      SongRecording.create(recording_id: recording.id, song_id, params[:song_id])
+      if params[:studio][:name].present?
+        song_name = params[:studio][:name]
+      else
+        song = Song.find_by_id(params[:song_id])
+        song_name = song.name
+      end
+
+      recording = @band.recordings.create(studio_id: params[:studio][:studio_id], kind: 'single', name: song_name)
+      SongRecording.create(recording_id: recording.id, song_id: params[:song_id])
       ActivityWorker.perform_at(end_at, params[:band_id], 'record_single', hours, recording.id)
     end
 

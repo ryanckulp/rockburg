@@ -8,4 +8,5 @@ class Band < ApplicationRecord
   has_many :happenings
   has_many :songs
   has_many :gigs
+  has_many :recordings
 end
