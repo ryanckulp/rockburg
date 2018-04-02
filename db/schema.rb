@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180327033609) do
+ActiveRecord::Schema.define(version: 20180329030902) do
 
   create_table "activities", force: :cascade do |t|
     t.integer "band_id"
@@ -150,6 +150,13 @@ ActiveRecord::Schema.define(version: 20180327033609) do
     t.datetime "updated_at", null: false
     t.index ["band_id"], name: "index_recordings_on_band_id"
     t.index ["studio_id"], name: "index_recordings_on_studio_id"
+  end
+
+  create_table "single_albums", force: :cascade do |t|
+    t.integer "album_id"
+    t.integer "single_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "skills", force: :cascade do |t|

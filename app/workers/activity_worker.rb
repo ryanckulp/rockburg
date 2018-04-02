@@ -112,6 +112,45 @@ class ActivityWorker
       @band.manager.financials.create!(amount: -@recording.studio.cost, band_id: @band.id)
 
       @band.happenings.create(what: "#{@band.name} made a recording of #{@recording.songs.map { |s| s.name }.join ','}! It has a quality score of #{recording_quality} and cost #{@recording.studio.cost} to record.")
+    when 'record_album'
+      @band.members.each do |member|
+        increase_fatigue_amount = rand(25..75)
+        member.increment!(:trait_fatigue, increase_fatigue_amount)
+        @band.happenings.create(what: "#{member.name}'s fatigue increased by #{increase_fatigue_amount}")
+      end
+
+      @recording = Recording.find_by_id(song_id)
+      studio = @recording.studio.cost
+      song_avg = @recording.songs.average(:quality).to_i
+
+      skill_mp = 60
+      creativity_mp = 25
+      ego_mp = 50
+      member_multiplyer = @band.members.count * 100
+      studio_mp = 80
+      song_mp = 200
+
+      total_skills = @band.members.pluck(:skill_primary_level).inject(0, :+)
+      total_creativity = @band.members.pluck(:trait_creativity).inject(0, :+)
+      total_ego = @band.members.pluck(:trait_ego).inject(0, :+)
+
+      possible_points = (member_multiplyer * skill_mp) + (member_multiplyer * creativity_mp)  + (studio * studio_mp) + (song_avg * song_mp)
+
+      quality = 100
+
+      points = (total_skills * skill_mp) + (total_creativity * creativity_mp) + (studio * studio_mp) + (song_avg * song_mp)
+
+      ego_weight = (total_ego * ego_mp).to_f / 10000
+      total = quality * (points.to_f / possible_points.to_f)
+      ego_reduction = total * ego_weight
+
+      recording_quality = (total - ego_reduction).round
+
+      @recording.update_attributes(quality: recording_quality)
+
+      @band.manager.financials.create!(amount: -@recording.studio.cost, band_id: @band.id)
+
+      @band.happenings.create(what: "#{@band.name} recorded an album named #{@recording.name}! It has a quality score of #{recording_quality} and cost #{@recording.studio.cost} to record.")
     end
   end
 end

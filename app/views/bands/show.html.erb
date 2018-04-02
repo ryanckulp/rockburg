@@ -36,7 +36,7 @@
         <p>Here are all the songs you've recorded.</p>
         <ul>
           <% @band.recordings.each do |recording| %>
-          <li><%= recording.name %> (Quality: <%= recording.quality %>)</li>
+          <li><%= recording.name %> (<%= recording.kind %> -- Quality: <%= recording.quality %>)</li>
           <% end %>
         </ul>
       </div>
@@ -179,13 +179,60 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <%= submit_tag("Start Recording", class: 'btn btn-primary') %>
+                <%= submit_tag("Start Recording Single", class: 'btn btn-primary') %>
               </div>
               <% end %>
             </div>
           </div>
         </div>
-        <%= link_to "Record an album".html_safe, new_band_activity_path(band_id: @band.id, type: 'record_album'), class: 'list-group-item list-group-item-action' %>
+
+        <!-- Record an album -->
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_record_album">Record an album <br /><small>Put recorded singles in to an EP or LP!</small></button>
+
+        <div class="modal fade" id="modal_record_album" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <%= form_tag("/bands/#{@band.id}/activities/new", method: "get") do %>
+              <%= hidden_field_tag 'type', 'record_album' %>
+              <div class="modal-header">
+                <h5 class="modal-title">What studio would you like to record at?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container-fluid">
+                  <h6>Select recorded songs to put on album</h6>
+                  <div class="form-group">
+                    <% @band.recordings.where(kind:'single').each do |recording| %>
+                    <div class="form-check">
+                      <%= check_box_tag('recording_ids[]  ', recording.id, false, class: '') %>
+                      <label class="form-check-label">
+                        <%= recording.name %> (Quality: <%= recording.quality %>)
+                      </label>
+                    </div>
+                    <% end %>
+                  </ul>
+                  </div>
+                  <div class="form-group">
+                    <h6>Select a studio to record at</h6>
+                    <%= collection_select(:studio, :studio_id, Studio.all, :id, :full_studio, class: 'form-control') %>
+                  </div>
+                  <div class="form-group">
+                    <h6>What would you like to name this album?</h6>
+                    <%= text_field_tag('studio[name]', Faker::Hipster.sentence(2, false, 0).gsub('.','').titleize, class: 'form-control') %>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <%= submit_tag("Start Recording Album", class: 'btn btn-primary') %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+
         <%= link_to "Release single or album".html_safe, new_band_activity_path(band_id: @band.id, type: 'release'), class: 'list-group-item list-group-item-action' %>
         <%= link_to "Rest".html_safe, new_band_activity_path(band_id: @band.id, type: 'rest'), class: 'list-group-item list-group-item-action' %>
       <% end %>
