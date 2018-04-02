@@ -151,6 +151,34 @@ class ActivityWorker
       @band.manager.financials.create!(amount: -@recording.studio.cost, band_id: @band.id)
 
       @band.happenings.create(what: "#{@band.name} recorded an album named #{@recording.name}! It has a quality score of #{recording_quality} and cost #{@recording.studio.cost} to record.")
+    when 'release'
+      recording = Recording.find_by_id(song_id)
+
+      buzz = @band.buzz
+      fans = @band.fans
+      cap = recording.quality
+
+      new_fans = ((buzz.to_f/cap.to_f) * 10).ceil
+      new_fans = new_fans == 0 ? 2 : new_fans
+      album_price = 10.0
+
+      @band.increment!(:fans, new_fans)
+      @band.increment!(:buzz, new_fans)
+
+      revenue = new_fans * album_price
+
+      @band.manager.financials.create!(amount: revenue, band_id: @band.id)
+
+      recording.update_attributes(sales: revenue)
+
+      @band.happenings.create(what: "You made #{revenue} from your release of #{recording.name}!")
+      @band.happenings.create(what: "You gained #{new_fans} new fans from your release of #{recording.name}!")
+    when 'rest'
+      @band.members.each do |member|
+        decrease_fatigue_amount = (rand(20..50) * hours.to_f/10).ceil
+        member.decrement!(:trait_fatigue, decrease_fatigue_amount)
+        @band.happenings.create(what: "#{member.name}'s fatigue decreased by #{decrease_fatigue_amount}")
+      end
     end
   end
 end

@@ -233,8 +233,60 @@
         </div>
 
 
-        <%= link_to "Release single or album".html_safe, new_band_activity_path(band_id: @band.id, type: 'release'), class: 'list-group-item list-group-item-action' %>
-        <%= link_to "Rest".html_safe, new_band_activity_path(band_id: @band.id, type: 'rest'), class: 'list-group-item list-group-item-action' %>
+        <!-- Release -->
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_release">Release a single or album <br /><small>Releases bring buzz and money!</small></button>
+
+        <div class="modal fade" id="modal_release" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <%= form_tag("/bands/#{@band.id}/activities/new", method: "get") do %>
+              <%= hidden_field_tag 'type', 'release' %>
+              <div class="modal-header">
+                <h5 class="modal-title" id="">Which recording would you like to release?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>The more buzz you have when you release an album, the better your sales will be!</p>
+                <div class="form-group">
+                  <%= collection_select(:recording, :id, @band.recordings, :id, :full_recording, class: 'form-control') %>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <%= submit_tag("Release", class: 'btn btn-primary') %>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rest -->
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_rest">Rest <br /><small>The more fatigued you are, the more bad things happen!</small></button>
+
+        <div class="modal fade" id="modal_rest" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="">How long would you like to rest?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p>The longer you rest, the less fatigued you'll be.</p>
+                <div class="list-group">
+                  <%= link_to "1 hour", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '1'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "2 hours", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '2'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "6 hours", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '6'), class: 'list-group-item list-group-item-action' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
       <% end %>
       <% else %>
         You need to hire some band members!

@@ -53,6 +53,19 @@ class ActivitiesController < ApplicationController
         SingleAlbum.create!(album_id: album.id, single_id: recording.to_i)
       end
       ActivityWorker.perform_at(end_at, params[:band_id], 'record_album', hours, album.id)
+    when 'release'
+      hours = 24
+      end_at = Time.now + hours.seconds
+      @activity = Activity.new(band_id: params[:band_id], action: 'release', starts_at: Time.now, ends_at: end_at)
+
+      release = Recording.find_by_id(params[:recording][:id])
+
+      ActivityWorker.perform_at(end_at, params[:band_id], 'release', hours, release.id)
+    when 'rest'
+      hours = params[:hours].to_i
+      end_at = Time.now + hours.seconds
+      @activity = Activity.new(band_id: params[:band_id], action: 'rest', starts_at: Time.now, ends_at: end_at)
+      ActivityWorker.perform_at(end_at, params[:band_id], 'rest', hours)
     end
 
     if @activity.save
