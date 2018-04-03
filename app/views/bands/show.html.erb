@@ -1,3 +1,6 @@
+<div class="jumbotron bg-success">
+  <h1 class="display-3"></h1>
+</div>
 <h1><%= @band.name %></h1>
 <h2><%= @band.genre.name %> - <%= @band.genre.style %></h2>
 <h3>Fans: <%= @band.fans %> &bull; Buzz: <%= @band.buzz %> &bull; Songs: <a href="#" type="" class="" data-toggle="modal" data-target="#modal_songs"><%= @band.songs.count %></a> &bull; Recordings: <a href="#" type="" class="" data-toggle="modal" data-target="#modal_recordings"><%= @band.recordings.count %></a></h3>
@@ -313,7 +316,9 @@
     <div class="card">
       <% if member.present? %>
         <div class="card-header"><%= skill.skill.name %></div>
-        <%= image_tag member.avatar, class: 'card-img-top' %>
+        <div class="card-img-pad">
+          <%= image_tag member.avatar, class: 'card-img-top' %>
+        </div>
         <div class="card-body">
           <h5 class="card-title"><%= member.name %></h5>
           <h6><%= gender(member.gender) %>, <%= member.age %></h6>

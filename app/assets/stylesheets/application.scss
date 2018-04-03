@@ -15,8 +15,20 @@
  */
 
  // Custom bootstrap variables must be set or imported *before* bootstrap.
+$font-family-sans-serif: 'Open Sans', sans-serif;
+$headings-font-family: 'Nunito', sans-serif;
+$headings-font-weight: 700;
+$blue: #2178E6;
+$green: #13D87B;
+
+
 @import "bootstrap";
 
 button {
   cursor: pointer;
+}
+
+.card-img-pad {
+  padding: 20px 20px 0 20px;
+  background: $blue;
 }
