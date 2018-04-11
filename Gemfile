@@ -8,7 +8,7 @@ git_source(:github) do |repo_name|
 end
 
 # Framework
-gem 'rails', '~> 5.1.4'
+gem 'rails', '~> 5.2'
 
 # Webserver
 gem 'puma'
