@@ -81,6 +81,9 @@ GEM
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     crass (1.0.3)
+    dotiw (4.0.0)
+      actionpack (>= 4)
+      i18n
     erubi (1.7.1)
     et-orbi (1.1.0)
       tzinfo
@@ -229,6 +232,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   coffee-rails (~> 4.2)
   devise!
+  dotiw
   faker
   jbuilder (~> 2.5)
   jquery-rails

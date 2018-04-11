@@ -9,4 +9,8 @@ class Band < ApplicationRecord
   has_many :songs
   has_many :gigs
   has_many :recordings
+
+  def to_param
+    [id, name.parameterize].join("-")
+  end
 end

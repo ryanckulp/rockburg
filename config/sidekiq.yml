@@ -5,5 +5,5 @@
 #  :listened_queues_only: <push jobs whose queue is being listened by sidekiq [false by default]>
 
 :schedule:
-  DailyRunningFinancial:
+  DailyRunningFinancialWorker:
     cron: '0 20 * * *'   # Runs every day at 8pm

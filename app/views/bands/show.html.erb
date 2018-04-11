@@ -1,9 +1,12 @@
-<div class="jumbotron bg-success">
+<!-- <div class="jumbotron bg-success">
   <h1 class="display-3"></h1>
-</div>
+</div> -->
 <h1><%= @band.name %></h1>
 <h2><%= @band.genre.name %> - <%= @band.genre.style %></h2>
-<h3>Fans: <%= @band.fans %> &bull; Buzz: <%= @band.buzz %> &bull; Songs: <a href="#" type="" class="" data-toggle="modal" data-target="#modal_songs"><%= @band.songs.count %></a> &bull; Recordings: <a href="#" type="" class="" data-toggle="modal" data-target="#modal_recordings"><%= @band.recordings.count %></a></h3>
+<h3>Fans: <%= @band.fans %> &bull;
+  Buzz: <%= @band.buzz %> &bull;
+  Songs: <% if @band.songs.count > 0 %><a href="#" type="" class="" data-toggle="modal" data-target="#modal_songs"><%= @band.songs.count %></a><% else %>0<% end %> &bull;
+  Recordings: <% if @band.recordings.count > 0 %><a href="#" type="" class="" data-toggle="modal" data-target="#modal_recordings"><%= @band.recordings.count %></a><% else %>0<% end %></h3>
 
 <div class="modal fade" id="modal_songs" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -52,9 +55,9 @@
   <div class="col-sm-6">
     <h3>Actions</h3>
     <div class="list-group">
-      <% if @band.members.present? %>
+      <% if @band.genre.genre_skills.count == @band.members.count %>
       <% if @activity %>
-        Currently: <%= @activity.action %> for <%= distance_of_time_in_words(Time.now, @activity.ends_at, include_seconds: true) %>
+        Currently: <%= translate_activity @activity.action %> for <%= distance_of_time_in_words(Time.now.utc, @activity.ends_at) %>
       <% else %>
         <!-- Practice -->
         <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_practice">Practice <br /><small>Improves the skill level of each member</small></button>
@@ -121,7 +124,7 @@
               <div class="modal-body">
                 <div class="container-fluid">
                   <p>Choose a venue carefully! If you choose a high-cap venue but aren't able to sell many tickets, it will hurt the perception (and future fans) of your band.</p>
-                  <p><b>Playing a gig takes 24 hours.</b></p>
+                  <p><b>Playing a gig takes 6 hours.</b></p>
                   <div class="row">
                     <% Venue.order('capacity ASC').each do |venue| %>
                     <div class="col-md-6 mb-3">
@@ -292,7 +295,7 @@
 
       <% end %>
       <% else %>
-        You need to hire some band members!
+        You need to hire a full band!
       <% end %>
     </div>
   </div>
@@ -313,7 +316,7 @@
   <% @band.genre.genre_skills.each do |skill| %>
     <% member = @band.member_bands.where(skill_id: skill.skill.id).first.try(:member) %>
   <div class="col-sm-3">
-    <div class="card">
+    <div class="card mb-4">
       <% if member.present? %>
         <div class="card-header"><%= skill.skill.name %></div>
         <div class="card-img-pad">
@@ -321,7 +324,6 @@
         </div>
         <div class="card-body">
           <h5 class="card-title"><%= member.name %></h5>
-          <h6><%= gender(member.gender) %>, <%= member.age %></h6>
           <h4 class="text-success"><%= number_to_currency(member.cost_generator, precision: 0, unit: '§') %><small>/day</small></h4>
           <%= render partial: "skills/progress", locals: {skill_name: skill.skill.name, skill_level: member.skill_primary_level} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Fatigue", skill_level: member.trait_fatigue, negative: true} %>

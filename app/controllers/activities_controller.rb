@@ -14,7 +14,7 @@ class ActivitiesController < ApplicationController
       song = Song.create(band_id: params[:band_id], name: Faker::Hipster.sentence(2, false, 0).gsub('.','').titleize)
       ActivityWorker.perform_at(end_at, params[:band_id], 'write_song', hours, song.id)
     when 'gig'
-      hours = 24
+      hours = 6
       end_at = Time.now + hours.seconds
       @activity = Activity.new(band_id: params[:band_id], action: 'gig', starts_at: Time.now, ends_at: end_at)
       venue = Venue.find_by_id(params[:venue])

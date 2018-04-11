@@ -11,6 +11,7 @@ gem 'jquery-rails'
 gem 'faker'
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
+gem 'dotiw'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
