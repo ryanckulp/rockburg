@@ -8,6 +8,15 @@ Ultimately what I'm trying to do here is build a fun, modern simulation game. I 
 ## Codebase
 The current codebase is vanilla Rails. Really nothing out of the ordinary here. Locally it's using SQLite locally for the data store and Sidekiq for workers.
 
+## Local setup
+```bash
+$ bundle && rake db:migrate && rake db:seed # creates genres, venues, etc
+$ rails s
+
+# in another console tab...
+$ sidekiq # required for background jobs, which much of the app relies on
+```
+
 ## Contributing
 It's still very early days for this. It doesn't exist on any public servers yet...all dev work is still just local. So, your mileage will vary here and lots of things will break.
 
