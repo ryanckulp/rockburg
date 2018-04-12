@@ -147,7 +147,7 @@
 
 
         <!-- Record a single -->
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_record_single">Record a single <br /><small>Recording a single is a chance to improve a song and get it ready to release!</small></button>
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_record_single"<% if @band.songs.count == 0 %> disabled<% end %>>Record a single<% if @band.songs.count == 0 %> <b class="badge badge-info">You need to write a song first!</b> <% end %><br /><small>Recording a single is a chance to improve a song and get it ready to release!</small></button>
 
         <div class="modal fade" id="modal_record_single" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
@@ -193,7 +193,7 @@
         </div>
 
         <!-- Record an album -->
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_record_album">Record an album <br /><small>Put recorded singles in to an EP or LP!</small></button>
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_record_album"<% if @band.songs.count == 0 %> disabled<% end %>>Record an album<% if @band.songs.count == 0 %> <b class="badge badge-info">You need to write a song first!</b> <% end %> <br /><small>Put recorded singles in to an EP or LP!</small></button>
 
         <div class="modal fade" id="modal_record_album" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
@@ -240,7 +240,7 @@
 
 
         <!-- Release -->
-        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_release">Release a single or album <br /><small>Releases bring buzz and money!</small></button>
+        <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_release"<% if @band.recordings.count == 0 %> disabled<% end %>>Release a single or album<% if @band.recordings.count == 0 %> <b class="badge badge-info">You need to record a single or album first!</b> <% end %> <br /><small>Releases bring buzz and money!</small></button>
 
         <div class="modal fade" id="modal_release" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">

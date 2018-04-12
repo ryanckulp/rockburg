@@ -5,8 +5,22 @@ Back in the early 2000's I was super in to this game called Project Rockstar and
 
 Ultimately what I'm trying to do here is build a fun, modern simulation game. I have no idea what I'm doing, so all input is more than welcome!
 
+## Playing the game
+You can access the super-extra-alpha version of the game now: https://rockburg-production.herokuapp.com
+
+But beware it will frequently be wiped clean until we officially launch.
+
 ## Codebase
 The current codebase is vanilla Rails. Really nothing out of the ordinary here. Locally it's using SQLite locally for the data store and Sidekiq for workers.
+
+## Local setup
+```bash
+$ bundle && rake db:setup # sets up the database and loads seed data
+$ bundle exec puma # starts webserver
+
+# in another console tab...
+$ sidekiq # required for background jobs, which much of the app relies on
+```
 
 ## Contributing
 It's still very early days for this. It doesn't exist on any public servers yet...all dev work is still just local. So, your mileage will vary here and lots of things will break.

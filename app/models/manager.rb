@@ -8,6 +8,8 @@ class Manager < ApplicationRecord
   has_many :financials
   has_many :members, through: :bands
 
+  validates :name, uniqueness: true
+
   after_create :give_starting_balance
 
   def give_starting_balance
