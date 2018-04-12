@@ -16,6 +16,7 @@ gem 'puma'
 # Data
 gem 'pg'
 gem 'faker'
+gem 'seedbank'   # seed data organization
 
 # Frontend
 gem 'bootstrap', '~> 4.0.0'
@@ -36,6 +37,9 @@ gem 'sidekiq-scheduler'
 # Misc
 gem 'dotiw'        # Better distance of time in words for Rails
 gem 'sentry-raven' # logging
+gem 'colorize'     # colored strings are nice for debugging
+gem 'fast_blank'   # a booster for .blank?/.present? calls
+gem 'awesome_print' # print anything in the console
 
 group :development, :test do
   gem 'rspec-rails'
