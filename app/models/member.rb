@@ -35,7 +35,7 @@ class Member < ApplicationRecord
 
   def age
     now = Time.now.utc.to_date
-    now.year - birthdate.year - ((now.month > birthdate.month || (now.month == birthdate.month && now.day >= birthdate.day)) ? 0 : 1)
+    now.year - birthdate.year - (now.month > birthdate.month || (now.month == birthdate.month && now.day >= birthdate.day) ? 0 : 1)
   end
 
   def cost_generator

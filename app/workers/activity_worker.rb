@@ -7,11 +7,11 @@ class ActivityWorker
     case activity
     when 'practice'
       @band.members.each do |member|
-        increase_skill_amount = (rand(1..6) * hours.to_f/5).ceil
+        increase_skill_amount = (rand(1..6) * hours.to_f / 5).ceil
         member.increment!(:skill_primary_level, increase_skill_amount)
         @band.happenings.create(what: "#{member.name} increased their skill by #{increase_skill_amount} points!")
 
-        increase_fatigue_amount = (rand(1..10) * hours.to_f/5).ceil
+        increase_fatigue_amount = (rand(1..10) * hours.to_f / 5).ceil
         member.increment!(:trait_fatigue, increase_fatigue_amount)
         @band.happenings.create(what: "#{member.name}'s fatigue increased by #{increase_fatigue_amount}")
       end
@@ -38,7 +38,7 @@ class ActivityWorker
 
       points = (total_skills * skill_mp) + (total_creativity * creativity_mp) + (hours * time_mp)
 
-      ego_weight = (total_ego * ego_mp).to_f / 10000
+      ego_weight = (total_ego * ego_mp).to_f / 10_000
       total = quality * (points.to_f / possible_points.to_f)
       ego_reduction = total * ego_weight
 
@@ -58,22 +58,22 @@ class ActivityWorker
       buzz = @band.buzz.to_f
       fans = @band.fans.to_f
 
-      #new_fans = ((buzz.to_f/cap.to_f) * 10).ceil
-      #new_fans = new_fans == 0 ? 2 : new_fans
+      # new_fans = ((buzz.to_f/cap.to_f) * 10).ceil
+      # new_fans = new_fans.zero? ? 2 : new_fans
 
       # new_fans = fans**(buzz / 125)
       # cap_deduction = (cap - new_fans) / 10
       # total_new = new_fans - cap_deduction
-      #final_new = total_new <= 0 ? 2 : total_new
+      # final_new = total_new <= 0 ? 2 : total_new
 
       attendance = ((fans * rand(0.05..0.3)) + ((buzz / 100) * cap)).ceil
-      attendance = attendance == 0 ? rand(1..3) : attendance
+      attendance = attendance.zero? ? rand(1..3) : attendance
 
-      new_fans = new_fans = (((attendance/cap)**rand(1..3.5)) * 100).ceil
-      new_fans = new_fans == 0 ? rand(1..3) : new_fans
+      new_fans = new_fans = (((attendance / cap)**rand(1..3.5)) * 100).ceil
+      new_fans = new_fans.zero? ? rand(1..3) : new_fans
 
-      new_buzz = (((attendance/cap)**rand(1..2.5)) * 100).ceil
-      new_buzz = new_buzz == 0 ? rand(1..3) : new_buzz
+      new_buzz = (((attendance / cap)**rand(1..2.5)) * 100).ceil
+      new_buzz = new_buzz.zero? ? rand(1..3) : new_buzz
 
       ticket_price = 10.0
 
@@ -110,7 +110,7 @@ class ActivityWorker
       total_creativity = @band.members.pluck(:trait_creativity).inject(0, :+)
       total_ego = @band.members.pluck(:trait_ego).inject(0, :+)
 
-      possible_points = (member_multiplyer * skill_mp) + (member_multiplyer * creativity_mp)  + (Studio.order(:weight).last.weight * studio_mp) + (100 * song_mp)
+      possible_points = (member_multiplyer * skill_mp) + (member_multiplyer * creativity_mp) + (Studio.order(:weight).last.weight * studio_mp) + (100 * song_mp)
 
       quality = 100
 
@@ -126,7 +126,7 @@ class ActivityWorker
 
       @band.manager.financials.create!(amount: -@recording.studio.cost, band_id: @band.id)
 
-      @band.happenings.create(what: "#{@band.name} made a recording of #{@recording.songs.map { |s| s.name }.join ','}! It has a quality score of #{recording_quality} and cost §#{@recording.studio.cost} to record.")
+      @band.happenings.create(what: "#{@band.name} made a recording of #{@recording.songs.map(&:name).join ','}! It has a quality score of #{recording_quality} and cost §#{@recording.studio.cost} to record.")
     when 'record_album'
       @band.members.each do |member|
         increase_fatigue_amount = rand(25..75)
@@ -149,7 +149,7 @@ class ActivityWorker
       total_creativity = @band.members.pluck(:trait_creativity).inject(0, :+)
       total_ego = @band.members.pluck(:trait_ego).inject(0, :+)
 
-      possible_points = (member_multiplyer * skill_mp) + (member_multiplyer * creativity_mp)  + (studio * studio_mp) + (song_avg * song_mp)
+      possible_points = (member_multiplyer * skill_mp) + (member_multiplyer * creativity_mp) + (studio * studio_mp) + (song_avg * song_mp)
 
       quality = 100
 
@@ -175,7 +175,7 @@ class ActivityWorker
       quality = recording.quality
 
       streaming_rate = 0.03
-      streams = (fans + (fans * (buzz/100))) * (quality/100)
+      streams = (fans + (fans * (buzz / 100))) * (quality / 100)
 
       earnings = (streaming_rate * streaming_rate).ceil
 
@@ -185,7 +185,7 @@ class ActivityWorker
       @band.happenings.create(what: "You made §#{earnings.to_i} from your release of #{recording.name}!")
     when 'rest'
       @band.members.each do |member|
-        decrease_fatigue_amount = (rand(20..50) * hours.to_f/10).ceil
+        decrease_fatigue_amount = (rand(20..50) * hours.to_f / 10).ceil
         member.decrement!(:trait_fatigue, decrease_fatigue_amount)
         @band.happenings.create(what: "#{member.name}'s fatigue decreased by #{decrease_fatigue_amount}")
       end

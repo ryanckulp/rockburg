@@ -10,11 +10,11 @@ class BandsController < ApplicationController
     @band = Band.new(band_params)
     @band.manager = current_manager
     if @band.save
-      current_manager.financials.create!(amount: -10000, band_id: @band.id)
+      current_manager.financials.create!(amount: -10_000, band_id: @band.id)
       @band.happenings.create(what: "#{@band.name} has just been formed!")
       redirect_to @band, alert: "Band created successfully."
     else
-        redirect_to new_band_path, alert: "Error creating band."
+      redirect_to new_band_path, alert: "Error creating band."
     end
   end
 

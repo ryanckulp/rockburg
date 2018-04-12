@@ -38,7 +38,7 @@ class Manager < ApplicationRecord
   after_create :give_starting_balance
 
   def give_starting_balance
-    self.financials.create!(amount: 50000, balance: 50000)
+    self.financials.create!(amount: 50_000, balance: 50_000)
   end
 
   def balance

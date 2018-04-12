@@ -27,8 +27,8 @@ class Member::AvatarURL < ApplicationService
   }.freeze
 
   def call
-    chosen_attributes = ATTRIBUTES.map.with_index do |(k,v),index|
-      [k,v.sample(random: Random.new(seed + index + 1))]
+    chosen_attributes = ATTRIBUTES.map.with_index do |(k, v), index|
+      [k, v.sample(random: Random.new(seed + index + 1))]
     end.to_h
 
     context.result = "https://avataaars.io/?#{chosen_attributes.to_param}"
