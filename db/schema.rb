@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180409213912) do
+ActiveRecord::Schema.define(version: 2018_04_09_213912) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "activities", force: :cascade do |t|
-    t.integer "band_id"
+    t.bigint "band_id"
     t.string "action"
     t.datetime "starts_at"
     t.datetime "ends_at"
@@ -26,8 +29,8 @@ ActiveRecord::Schema.define(version: 20180409213912) do
     t.string "name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "manager_id"
-    t.integer "genre_id"
+    t.bigint "manager_id"
+    t.bigint "genre_id"
     t.integer "fans", default: 0
     t.integer "buzz", default: 0
     t.index ["genre_id"], name: "index_bands_on_genre_id"
@@ -35,9 +38,9 @@ ActiveRecord::Schema.define(version: 20180409213912) do
   end
 
   create_table "financials", force: :cascade do |t|
-    t.integer "manager_id", null: false
-    t.integer "band_id"
-    t.integer "activity_id"
+    t.bigint "manager_id", null: false
+    t.bigint "band_id"
+    t.bigint "activity_id"
     t.integer "amount", default: 0
     t.integer "balance", default: 0
     t.datetime "created_at", null: false
@@ -48,8 +51,8 @@ ActiveRecord::Schema.define(version: 20180409213912) do
   end
 
   create_table "genre_skills", force: :cascade do |t|
-    t.integer "genre_id"
-    t.integer "skill_id"
+    t.bigint "genre_id"
+    t.bigint "skill_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["genre_id"], name: "index_genre_skills_on_genre_id"
@@ -66,8 +69,8 @@ ActiveRecord::Schema.define(version: 20180409213912) do
   end
 
   create_table "gigs", force: :cascade do |t|
-    t.integer "band_id"
-    t.integer "venue_id"
+    t.bigint "band_id"
+    t.bigint "venue_id"
     t.integer "fans_gained"
     t.integer "money_made"
     t.date "played_on"
@@ -78,7 +81,7 @@ ActiveRecord::Schema.define(version: 20180409213912) do
   end
 
   create_table "happenings", force: :cascade do |t|
-    t.integer "band_id"
+    t.bigint "band_id"
     t.string "what"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -104,9 +107,9 @@ ActiveRecord::Schema.define(version: 20180409213912) do
   end
 
   create_table "member_bands", force: :cascade do |t|
-    t.integer "member_id"
-    t.integer "band_id"
-    t.integer "skill_id"
+    t.bigint "member_id"
+    t.bigint "band_id"
+    t.bigint "skill_id"
     t.datetime "joined_band_at"
     t.datetime "left_band_at"
     t.datetime "created_at", null: false
@@ -141,8 +144,8 @@ ActiveRecord::Schema.define(version: 20180409213912) do
   end
 
   create_table "recordings", force: :cascade do |t|
-    t.integer "studio_id"
-    t.integer "band_id"
+    t.bigint "studio_id"
+    t.bigint "band_id"
     t.string "kind"
     t.string "name"
     t.integer "quality"
@@ -168,8 +171,8 @@ ActiveRecord::Schema.define(version: 20180409213912) do
   end
 
   create_table "song_recordings", force: :cascade do |t|
-    t.integer "recording_id"
-    t.integer "song_id"
+    t.bigint "recording_id"
+    t.bigint "song_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["recording_id"], name: "index_song_recordings_on_recording_id"
@@ -177,7 +180,7 @@ ActiveRecord::Schema.define(version: 20180409213912) do
   end
 
   create_table "songs", force: :cascade do |t|
-    t.integer "band_id"
+    t.bigint "band_id"
     t.string "name"
     t.integer "quality", default: 0
     t.integer "streams", default: 0
@@ -205,4 +208,5 @@ ActiveRecord::Schema.define(version: 20180409213912) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "bands", "genres"
 end
