@@ -3,13 +3,13 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">Rank</th>
       <th scope="col">Manager</th>
       <th scope="col">Cash</th>
     </tr>
   </thead>
   <tbody>
-    <% Manager.all.each_with_index do |manager, index| %>
+    <% @managers.each_with_index do |manager, index| %>
     <tr>
       <th scope="row"><%= index + 1 %></th>
       <td><%= manager.name %></td>
