@@ -61,3 +61,4 @@ class Band::DailyUpdate < ApplicationService
     band.update_attributes(fans: decayed_fans)
     band.happenings.create(what: "#{band.name}'s fans decreased to #{decayed_fans}.")
   end
+end
