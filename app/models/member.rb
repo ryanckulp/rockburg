@@ -10,10 +10,6 @@ class Member < ApplicationRecord
     now.year - birthdate.year - ((now.month > birthdate.month || (now.month == birthdate.month && now.day >= birthdate.day)) ? 0 : 1)
   end
 
-  def avatar
-    "http://api.adorable.io/avatar/500/#{self.id}-#{self.name.parameterize}-#{self.created_at}"
-  end
-
   def cost_generator
     skill_mp = 60
     creativity_mp = 25
