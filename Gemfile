@@ -14,9 +14,9 @@ gem 'rails', '~> 5.2'
 gem 'puma'
 
 # Data
+gem 'pg'
 gem 'ensurance'  # lets you .ensure your models
 gem 'faker'
-gem 'pg'
 gem 'seedbank'   # seed data organization
 
 # Frontend
