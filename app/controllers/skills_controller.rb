@@ -5,7 +5,5 @@ class SkillsController < ApplicationController
   def show
     @skill = Skill.find(params[:id])
     @band = Band.find(params[:band_id])
-
-    
   end
 end

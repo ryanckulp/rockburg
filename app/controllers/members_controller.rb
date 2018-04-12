@@ -18,7 +18,7 @@ class MembersController < ApplicationController
       @member_band.band.happenings.create(what: "#{@member_band.member.name} was hired to play #{@member_band.member.primary_skill.name}!")
       redirect_to band_path(params[:band_id]), alert: "Member hired successfully."
     else
-        redirect_to new_band_path, alert: "Error hiring member."
+      redirect_to new_band_path, alert: "Error hiring member."
     end
   end
 end
