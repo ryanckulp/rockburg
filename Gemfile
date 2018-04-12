@@ -35,6 +35,7 @@ gem 'sidekiq-scheduler'
 
 # Misc
 gem 'dotiw'                   # Better distance of time in words for Rails
+gem 'sentry-raven' # logging
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
