@@ -1,3 +1,10 @@
+development:
+  :concurrency: 5
+production:
+  :concurrency: 20
+:queues:
+  - default
+
 :dynamic: true
 #:dynamic_every: <if dynamic is true, the schedule is reloaded every interval [5s by default]>
 #:enabled: <enables scheduler if true [true by default]>
