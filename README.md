@@ -10,8 +10,8 @@ The current codebase is vanilla Rails. Really nothing out of the ordinary here. 
 
 ## Local setup
 ```bash
-$ bundle && rake db:migrate && rake db:seed # creates genres, venues, etc
-$ rails s
+$ bundle && rake db:setup # sets up the database and loads seed data
+$ bundle exec puma # starts webserver
 
 # in another console tab...
 $ sidekiq # required for background jobs, which much of the app relies on

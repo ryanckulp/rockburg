@@ -14,7 +14,7 @@ gem 'rails', '~> 5.2'
 gem 'puma'
 
 # Data
-gem 'sqlite3'
+gem 'pg'
 gem 'faker'
 
 # Frontend
