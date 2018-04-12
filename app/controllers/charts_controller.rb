@@ -1,5 +1,5 @@
 class ChartsController < ApplicationController
   def index
-    #code
+    @managers = Financial.group(:manager_id).order('created_at DESC')
   end
 end

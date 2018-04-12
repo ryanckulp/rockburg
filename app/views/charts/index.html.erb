@@ -9,11 +9,11 @@
     </tr>
   </thead>
   <tbody>
-    <% Manager.all.each_with_index do |manager, index| %>
+    <% @managers.each_with_index do |financial, index| %>
     <tr>
       <th scope="row"><%= index + 1 %></th>
-      <td><%= manager.name %></td>
-      <td>§<%= manager.balance %></td>
+      <td><%= financial.manager.name %></td>
+      <td>§<%= financial.manager.balance %></td>
     </tr>
     <% end %>
   </tbody>
