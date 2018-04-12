@@ -1,7 +1,7 @@
 class Member < ApplicationRecord
-  belongs_to :skill_primary, class_name: 'Skill', foreign_key: :skill_primary
-  belongs_to :skill_secondary, class_name: 'Skill', foreign_key: :skill_secondary, optional: true
-  belongs_to :skill_tertiary, class_name: 'Skill', foreign_key: :skill_tertiary, optional: true
+  belongs_to :primary_skill, class_name: 'Skill', foreign_key: :skill_primary
+  belongs_to :secondary_skill, class_name: 'Skill', foreign_key: :skill_secondary, optional: true
+  belongs_to :tertiary_skill, class_name: 'Skill', foreign_key: :skill_tertiary, optional: true
   has_many :member_bands
   has_many :bands, through: :member_bands
 
