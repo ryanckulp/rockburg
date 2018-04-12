@@ -3,17 +3,17 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">Rank</th>
       <th scope="col">Manager</th>
       <th scope="col">Cash</th>
     </tr>
   </thead>
   <tbody>
-    <% @managers.each_with_index do |financial, index| %>
+    <% @managers.each_with_index do |manager, index| %>
     <tr>
       <th scope="row"><%= index + 1 %></th>
-      <td><%= financial.manager.name %></td>
-      <td>§<%= financial.manager.balance %></td>
+      <td><%= manager.name %></td>
+      <td>§<%= manager.balance %></td>
     </tr>
     <% end %>
   </tbody>

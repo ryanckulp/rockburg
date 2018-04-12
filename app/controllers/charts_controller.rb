@@ -1,5 +1,5 @@
 class ChartsController < ApplicationController
   def index
-    @managers = Financial.group(:manager_id, :id).order('created_at DESC')
+    @managers = Manager.all.sort_by(&:balance).reverse!.first(50)
   end
 end
