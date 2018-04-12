@@ -1,0 +1,8 @@
+example_id                                         | status | run_time        |
+-------------------------------------------------- | ------ | --------------- |
+./spec/services/band/practice_spec.rb[1:1]         | passed | 0.04007 seconds |
+./spec/services/band/practice_spec.rb[1:2]         | passed | 0.09262 seconds |
+./spec/services/member/avatar_url_spec.rb[1:1]     | passed | 0.00594 seconds |
+./spec/services/member/cost_generator_spec.rb[1:1] | passed | 0.00625 seconds |
+./spec/services/member/practice_spec.rb[1:1]       | passed | 0.01194 seconds |
+./spec/services/member/practice_spec.rb[1:2]       | passed | 0.60331 seconds |
