@@ -46,8 +46,10 @@ gem 'fast_blank' # a booster for .blank?/.present? calls
 gem 'interactor' # service objects
 gem 'interactor-contracts' # interface contracts for service objects
 gem 'sentry-raven' # logging
+gem 'font-awesome-rails' # icons
 
 group :development, :test do
+  gem 'pry'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
 
