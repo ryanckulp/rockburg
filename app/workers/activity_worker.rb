@@ -58,14 +58,16 @@ class ActivityWorker
       buzz = @band.buzz.to_f
       fans = @band.fans.to_f
 
-      attendance = (((fans/cap)**rand(1.1..1.7)) * 100) + (fans * (buzz / 1000))
-      attendance = attendance < 1 ? rand(1..5) : attendance
+      attendance = ((((fans/cap)**rand(1.1..1.7)) * 100) + (fans * (buzz / 1000))).ceil
+      attendance = attendance.zero? ? rand(1..5) : attendance
+      attendance = attendance > cap ? cap : attendance
 
-      new_fans = new_fans = (((attendance / cap)**rand(1..3.5)) * 100).ceil
-      new_fans = new_fans < 1 ? rand(1..3) : new_fans
+      new_fans = (((attendance / cap)**rand(1..3.5)) * 100).ceil * 0.33
+      new_fans = new_fans.zero? ? rand(1..3) : new_fans
+      new_fans = new_fans > cap ? cap : new_fans
 
       new_buzz = (((attendance / cap)**rand(1..2.5)) * 100).ceil
-      new_buzz = new_buzz < 1 ? rand(1..3) : new_buzz
+      new_buzz = new_buzz.zero? ? rand(1..3) : new_buzz
 
       ticket_price = 10.0
 
@@ -79,7 +81,7 @@ class ActivityWorker
       gig.update_attributes(fans_gained: new_fans, money_made: revenue)
 
       @band.happenings.create(what: "You made §#{revenue.to_i} from #{pluralize attendance.to_i, "person"} at your gig!")
-      @band.happenings.create(what: "You gained #{pluralize new_fans, "new fan"} and #{new_buzz} buzz at your gig!")
+      @band.happenings.create(what: "You gained #{pluralize new_fans.to_i, "new fan"} and #{new_buzz} buzz at your gig!")
     when 'record_single'
       @band.members.each do |member|
         increase_fatigue_amount = rand(10..25)
