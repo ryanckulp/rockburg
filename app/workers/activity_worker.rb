@@ -58,22 +58,14 @@ class ActivityWorker
       buzz = @band.buzz.to_f
       fans = @band.fans.to_f
 
-      # new_fans = ((buzz.to_f/cap.to_f) * 10).ceil
-      # new_fans = new_fans.zero? ? 2 : new_fans
-
-      # new_fans = fans**(buzz / 125)
-      # cap_deduction = (cap - new_fans) / 10
-      # total_new = new_fans - cap_deduction
-      # final_new = total_new <= 0 ? 2 : total_new
-
-      attendance = ((fans * rand(0.05..0.3)) + ((buzz / 100) * cap)).ceil
-      attendance = attendance.zero? ? rand(1..3) : attendance
+      attendance = (((fans/cap)**rand(1.1..1.7)) * 100) + (fans * (buzz / 1000))
+      attendance = attendance < 1 ? rand(1..5) : attendance
 
       new_fans = new_fans = (((attendance / cap)**rand(1..3.5)) * 100).ceil
-      new_fans = new_fans.zero? ? rand(1..3) : new_fans
+      new_fans = new_fans < 1 ? rand(1..3) : new_fans
 
       new_buzz = (((attendance / cap)**rand(1..2.5)) * 100).ceil
-      new_buzz = new_buzz.zero? ? rand(1..3) : new_buzz
+      new_buzz = new_buzz < 1 ? rand(1..3) : new_buzz
 
       ticket_price = 10.0
 
