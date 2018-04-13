@@ -21,5 +21,8 @@ module Rockburg
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    # ActiveRecord time_zone
+    config.active_record.default_timezone = :utc
+    config.active_record.time_zone_aware_types = %i[datetime time]
   end
 end
