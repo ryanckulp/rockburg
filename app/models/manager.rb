@@ -31,6 +31,9 @@ class Manager < ApplicationRecord
 
   has_many :bands
   has_many :financials
+
+  has_one :most_recent_financial, ->{ most_recent }, class_name: Financial.name
+
   has_many :members, through: :bands
 
   validates :name, uniqueness: true

@@ -1,5 +1,5 @@
 class ChartsController < ApplicationController
   def index
-    @managers = Manager.all.sort_by(&:balance).reverse!.first(50)
+    @managers = Manager.includes(:most_recent_financial).order("financials.balance desc").limit(20)
   end
 end

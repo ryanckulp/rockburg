@@ -25,6 +25,8 @@ class Financial < ApplicationRecord
 
   after_create :adjust_balance
 
+  scope :most_recent, ->{ order(created_at: :desc).limit(1) }
+
   def adjust_balance
     line_item = amount
     if balance.zero?
