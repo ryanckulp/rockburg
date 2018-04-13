@@ -17,8 +17,8 @@
       <% if manager_signed_in? %>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <%= link_to "Dashboard", root_path, class: 'nav-item nav-link' %>
-          <%= link_to "Charts", charts_path, class: 'nav-item nav-link' %>
+          <%= link_to('<i class="fa fa-columns"></i> Dashboard'.html_safe, root_path, class: 'nav-item nav-link') %>
+          <%= link_to('<i class="fa fa-line-chart"></i> Charts'.html_safe, charts_path, class: 'nav-item nav-link') %>
         </div>
       </div>
       <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
