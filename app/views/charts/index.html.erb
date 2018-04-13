@@ -13,7 +13,7 @@
     <tr>
       <th scope="row"><%= index + 1 %></th>
       <td><%= manager.name %></td>
-      <td>§<%= manager.balance %></td>
+      <td>§<%= number_with_delimiter(manager.balance) %></td>
     </tr>
     <% end %>
   </tbody>
