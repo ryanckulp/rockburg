@@ -86,8 +86,8 @@ class ActivityWorker
 
       gig.update_attributes(fans_gained: new_fans, money_made: revenue)
 
-      @band.happenings.create(what: "You made §#{revenue.to_i} from #{attendance.to_i} people at your gig!")
-      @band.happenings.create(what: "You gained #{new_fans} new fans and #{new_buzz} buzz at your gig!")
+      @band.happenings.create(what: "You made §#{revenue.to_i} from #{pluralize attendance.to_i, "person"} at your gig!")
+      @band.happenings.create(what: "You gained #{pluralize new_fans, "new fan"} and #{new_buzz} buzz at your gig!")
     when 'record_single'
       @band.members.each do |member|
         increase_fatigue_amount = rand(10..25)
@@ -190,5 +190,10 @@ class ActivityWorker
         @band.happenings.create(what: "#{member.name}'s fatigue decreased by #{decrease_fatigue_amount}")
       end
     end
+  end
+
+  def pluralize number, text
+    return "#{number} #{text.pluralize}" if number != 1
+    "#{number} #{text}"
   end
 end
