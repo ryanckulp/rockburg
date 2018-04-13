@@ -63,6 +63,7 @@ group :development do
   gem 'bundleup', require: false # know which gems need updating
   gem 'hirb', github: 'bsharpe/hirb', branch: :master # nice record display in console
   gem 'rubocop', require: false # style cop
+  gem 'foreman', require: false # running background workers
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
