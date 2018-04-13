@@ -23,7 +23,7 @@
 
 FactoryBot.define do
   factory :band do
-    name { Generators::BandName.call.result }
+    name { Generator.band_name }
     manager
     genre     { Genre.all.sample }
     fans      { rand(0..500) }

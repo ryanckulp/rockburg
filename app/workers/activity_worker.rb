@@ -6,15 +6,7 @@ class ActivityWorker
 
     case activity
     when 'practice'
-      @band.members.each do |member|
-        increase_skill_amount = (rand(1..6) * hours.to_f / 5).ceil
-        member.increment!(:skill_primary_level, increase_skill_amount)
-        @band.happenings.create(what: "#{member.name} increased their skill by #{increase_skill_amount} points!")
-
-        increase_fatigue_amount = (rand(1..10) * hours.to_f / 5).ceil
-        member.increment!(:trait_fatigue, increase_fatigue_amount)
-        @band.happenings.create(what: "#{member.name}'s fatigue increased by #{increase_fatigue_amount}")
-      end
+      Band::Practice.(band: @band, hours: hours)
     when 'write_song'
       @band.members.each do |member|
         increase_fatigue_amount = rand(2..5) * hours
