@@ -62,8 +62,8 @@ class ActivityWorker
       attendance = attendance.zero? ? rand(1..5) : attendance
       attendance = attendance > cap ? cap : attendance
 
-      new_fans = (((attendance / cap)**rand(1..3.5)) * 100).ceil * 0.33
-      new_fans = new_fans.zero? ? rand(1..3) : new_fans
+      new_fans = ((((attendance / cap)**rand(1..3.5)) * 100) * 0.33).ceil
+      new_fans = new_fans.zero? ? rand(1..4) : new_fans
       new_fans = new_fans > cap ? cap : new_fans
 
       new_buzz = (((attendance / cap)**rand(1..2.5)) * 100).ceil
