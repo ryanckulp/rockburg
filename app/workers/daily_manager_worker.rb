@@ -1,6 +1,4 @@
-class DailyManagerWorker
-  include Sidekiq::Worker
-
+class DailyManagerWorker < ApplicationWorker
   def perform(manager)
     Manager::DailyFinancials.(manager: manager)
   end
