@@ -71,8 +71,8 @@ class ActivityWorker
 
       ticket_price = 10.0
 
-      @band.increment!(:fans, new_fans)
-      @band.increment!(:buzz, new_buzz)
+      @band.increment!(:fans, new_fans.to_i)
+      @band.increment!(:buzz, new_buzz.to_i)
 
       revenue = attendance * ticket_price
 
