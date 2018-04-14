@@ -26,7 +26,7 @@ class Financial < ApplicationRecord
   after_commit :adjust_balance, on: :create
 
   scope :recent, -> { order(created_at: :desc) }
-  scope :most_recent, ->{ order(created_at: :desc).limit(1) }
+  scope :most_recent, ->{ recent.limit(1) }
 
   def adjust_balance
     line_item = amount
