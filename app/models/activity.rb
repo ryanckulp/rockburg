@@ -22,4 +22,18 @@ class Activity < ApplicationRecord
   def self.current_activity
     where('ends_at > ?', Time.now)
   end
+
+  ACTIVITIES = {
+    'practice' => 'Practicing',
+    'write_song' => 'Writing a song',
+    'gig'=> 'Playing a gig',
+    'record_single' => 'Recording a single',
+    'record_album' => 'Recording an album',
+    'release' => 'Releasing music',
+    'rest' => 'Resting'
+  }.freeze
+
+  def humanize_action
+    ACTIVITIES[action]
+  end
 end

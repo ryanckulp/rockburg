@@ -13,7 +13,7 @@ class Band::Practice < ApplicationService
 
   def call
     band.members.each do |member|
-      result = Member::Practice.call(member: member, hours: hours)
+      result = Member::Practice.(member: member, hours: hours)
       if result.success?
         band.happenings.create(what: "#{member.name}'s fatigue increased by #{result.fatigue_change}")
         band.happenings.create(what: "#{member.name}'s skill increased by #{result.skill_change}")

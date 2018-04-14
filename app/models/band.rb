@@ -36,4 +36,9 @@ class Band < ApplicationRecord
   def to_param
     [id, name.parameterize].join("-")
   end
+
+  def add_member(member, skill: nil)
+    skill ||= member.primary_skill
+    self.member_bands.create(member: member, skill: skill)
+  end
 end

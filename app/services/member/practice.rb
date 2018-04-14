@@ -3,7 +3,7 @@ class Member::Practice < ApplicationService
 
   expects do
     required(:member).filled
-    required(:hours).filled
+    required(:hours).filled.value(type?: Integer)
   end
 
   delegate :member, :hours, to: :context
@@ -14,8 +14,9 @@ class Member::Practice < ApplicationService
   end
 
   def call
-    increase_skill = (rand(1..6) * hours.to_f / 5).ceil
-    increase_fatigue = (rand(1..10) * hours.to_f / 5).ceil
+    increase_skill = (rand(1..6) * hours / 5.0).ceil
+    increase_fatigue = (rand(1..10) * hours / 5.0).ceil
+
     Member.transaction do
       context.skill_change = increase_skill
       context.fatigue_change = increase_fatigue

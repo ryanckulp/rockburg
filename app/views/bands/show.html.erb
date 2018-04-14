@@ -55,9 +55,9 @@
   <div class="col-sm-6">
     <h3>Actions</h3>
     <div class="list-group">
-      <% if @band.genre.genre_skills.count == @band.members.count %>
+      <% if @band.genre.min_members <= @band.members.count %>
       <% if @activity %>
-        Currently: <%= translate_activity @activity.action %> for <%= distance_of_time_in_words(Time.now.utc, @activity.ends_at) %>
+        Currently: <%= @activity.humanize_action %> for <%= distance_of_time_in_words(Time.now.utc, @activity.ends_at) %>
       <% else %>
         <!-- Practice -->
         <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_practice">Practice <br /><small>Improves the skill level of each member</small></button>
@@ -302,7 +302,7 @@
   <div class="col-sm-6">
     <h3>News</h3>
     <ul style="max-height:375px;overflow:auto;">
-    <% @band.happenings.order('created_at DESC').each do |happening| %>
+    <% @band.happenings.recent.each do |happening| %>
       <li><%= happening.what %> <small><%= time_ago_in_words(happening.created_at) %> ago</small></li>
     <% end %>
     </ol>
@@ -313,19 +313,19 @@
 <h3>Members</h3>
 
 <div class="row">
-  <% @band.genre.genre_skills.each do |skill| %>
-    <% member = @band.member_bands.where(skill_id: skill.skill.id).first.try(:member) %>
+  <% @band.genre.skills.each do |genre_skill| %>
+    <% member = @band.members.with_skill(genre_skill).first %>
   <div class="col-sm-3">
     <div class="card mb-4">
       <% if member.present? %>
-        <div class="card-header"><%= skill.skill.name %></div>
+        <div class="card-header"><%= genre_skill.name %></div>
         <div class="card-img-pad">
           <%= image_tag member.avatar_url, class: 'card-img-top' %>
         </div>
         <div class="card-body">
           <h5 class="card-title"><%= member.name %></h5>
-          <h4 class="text-success"><%= number_to_currency(member.cost_generator, precision: 0, unit: '§') %><small>/day</small></h4>
-          <%= render partial: "skills/progress", locals: {skill_name: skill.skill.name, skill_level: member.skill_primary_level} %>
+          <h4 class="text-success"><%= as_game_currency(member.cost_generator) %><small>/day</small></h4>
+          <%= render partial: "skills/progress", locals: {skill_name: genre_skill.name, skill_level: member.skill_primary_level} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Fatigue", skill_level: member.trait_fatigue, negative: true} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Looks", skill_level: member.trait_looks} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Creativity", skill_level: member.trait_creativity} %>
@@ -333,9 +333,9 @@
         </div>
       <% else %>
         <div class="card-body">
-          <h4 class="card-title"><%= skill.skill.name %></h4>
+          <h4 class="card-title"><%= genre_skill.name %></h4>
           <p class="card-text"></p>
-          <%= link_to "Hire this member", band_skill_path(band_id: @band.id, id: skill.skill.id), class: 'btn btn-primary' %>
+          <%= link_to "Hire this member", band_skill_path(band_id: @band.id, id: genre_skill.id), class: 'btn btn-primary' %>
         </div>
       <% end %>
     </div>

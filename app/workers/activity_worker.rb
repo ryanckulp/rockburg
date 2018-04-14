@@ -8,43 +8,10 @@ class ActivityWorker
     when 'practice'
       Band::Practice.(band: @band, hours: hours)
     when 'write_song'
-      @band.members.each do |member|
-        increase_fatigue_amount = rand(2..5) * hours
-        member.increment!(:trait_fatigue, increase_fatigue_amount)
-        @band.happenings.create(what: "#{member.name}'s fatigue increased by #{increase_fatigue_amount}")
-      end
-
-      skill_mp = 50
-      creativity_mp = 15
-      time_mp = 30
-      ego_mp = 5
-      member_multiplyer = @band.members.count * 100
-
-      total_skills = @band.members.pluck(:skill_primary_level).inject(0, :+)
-      total_creativity = @band.members.pluck(:trait_creativity).inject(0, :+)
-      total_ego = @band.members.pluck(:trait_ego).inject(0, :+)
-
-      possible_points = (member_multiplyer * skill_mp) + (member_multiplyer * creativity_mp) + (24 * time_mp)
-
-      quality = 100
-
-      points = (total_skills * skill_mp) + (total_creativity * creativity_mp) + (hours * time_mp)
-
-      ego_weight = (total_ego * ego_mp).to_f / 10_000
-      total = quality * (points.to_f / possible_points.to_f)
-      ego_reduction = total * ego_weight
-
-      song_quality = (total - ego_reduction).round
-
-      @song = Song.find_by_id(song_id)
-      @song.update_attributes(quality: song_quality)
-      @band.happenings.create(what: "#{@band.name} wrote a new song called #{@song.name}! It has a quality score of #{song_quality}.")
+      Band::WriteSong.(band: @band, hours: hours)
     when 'gig'
-      @band.members.each do |member|
-        increase_fatigue_amount = rand(5..15)
-        member.increment!(:trait_fatigue, increase_fatigue_amount)
-        @band.happenings.create(what: "#{member.name}'s fatigue increased by #{increase_fatigue_amount}")
-      end
+      Band::AddFatigue.(band: @band, range: 5..15)
+
       gig = Gig.find_by_id(song_id)
       cap = gig.venue.capacity.to_f
       buzz = @band.buzz.to_f
@@ -74,18 +41,14 @@ class ActivityWorker
 
       revenue = attendance * ticket_price
 
-      @band.manager.financials.create!(amount: revenue, band_id: @band.id)
+      Band::EarnMoney.(amount: revenue, band: @band)
 
       gig.update_attributes(fans_gained: new_fans, money_made: revenue)
 
       @band.happenings.create(what: "You made §#{revenue.to_i} from #{attendance.to_i} people at your gig!")
       @band.happenings.create(what: "You gained #{new_fans} new fans and #{new_buzz} buzz at your gig!")
     when 'record_single'
-      @band.members.each do |member|
-        increase_fatigue_amount = rand(10..25)
-        member.increment!(:trait_fatigue, increase_fatigue_amount)
-        @band.happenings.create(what: "#{member.name}'s fatigue increased by #{increase_fatigue_amount}")
-      end
+      Band::AddFatigue.(band: @band, range: 10..25)
 
       @recording = Recording.find_by_id(song_id)
       studio = @recording.studio.weight
@@ -116,15 +79,11 @@ class ActivityWorker
 
       @recording.update_attributes(quality: recording_quality)
 
-      @band.manager.financials.create!(amount: -@recording.studio.cost, band_id: @band.id)
+      Band::SpendMoney.(band: @band, amount: @recording.studio.cost)
 
       @band.happenings.create(what: "#{@band.name} made a recording of #{@recording.songs.map(&:name).join ','}! It has a quality score of #{recording_quality} and cost §#{@recording.studio.cost} to record.")
     when 'record_album'
-      @band.members.each do |member|
-        increase_fatigue_amount = rand(25..75)
-        member.increment!(:trait_fatigue, increase_fatigue_amount)
-        @band.happenings.create(what: "#{member.name}'s fatigue increased by #{increase_fatigue_amount}")
-      end
+      Band::AddFatigue.(band: @band, range: 25..75)
 
       @recording = Recording.find_by_id(song_id)
       studio = @recording.studio.cost
@@ -155,7 +114,7 @@ class ActivityWorker
 
       @recording.update_attributes(quality: recording_quality)
 
-      @band.manager.financials.create!(amount: -@recording.studio.cost, band_id: @band.id)
+      Band::SpendMoney.(band: @band, amount: @recording.studio.cost)
 
       @band.happenings.create(what: "#{@band.name} recorded an album named #{@recording.name}! It has a quality score of #{recording_quality} and cost §#{@recording.studio.cost} to record.")
     when 'release'
@@ -171,7 +130,8 @@ class ActivityWorker
 
       earnings = (streaming_rate * streaming_rate).ceil
 
-      @band.manager.financials.create!(amount: earnings, band_id: @band.id)
+      Band::EarnMoney.(band: @band, amount: earnings)
+
       recording.update_attributes(sales: earnings)
 
       @band.happenings.create(what: "You made §#{earnings.to_i} from your release of #{recording.name}!")
