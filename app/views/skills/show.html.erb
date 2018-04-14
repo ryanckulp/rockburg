@@ -1,7 +1,8 @@
-<h1>Hire <b><u><%= @skill.name %></u></b> for <b><u><%= @band.name %></u></b></h1>
+<h1>Hire <b><u><%= skill.name %></u></b> for <b><u><%= band.name %></u></b></h1>
 
 <div class="row">
-  <% Member.where(skill_primary: @skill.id).limit(12).order("RANDOM()").each do |member| %>
+  <p> <%= members.count %> Members </p>
+  <% members.each do |member| %>
 
   <div class="col-sm-3 mb-5">
     <div class="card">
@@ -10,7 +11,7 @@
       </div>
       <div class="card-body">
         <h5 class="card-title"><%= member.name %></h5>
-        <h4 class="text-success"><%= number_to_currency(member.cost_generator, precision: 0, unit: '§') %><small>/day</small></h4>
+        <h4 class="text-success"><%= as_game_currency(member.cost_generator) %><small>/day</small></h4>
         <%= render partial: "progress", locals: {skill_name: "Instrument", skill_level: member.skill_primary_level} %>
         <%= render partial: "progress", locals: {skill_name: "Creativity", skill_level: member.trait_creativity} %>
         <%= render partial: "progress", locals: {skill_name: "Looks", skill_level: member.trait_looks} %>
@@ -18,7 +19,7 @@
 
       </div>
       <div class="card-footer text-center">
-        <%= link_to "Hire: <b>#{number_to_currency(member.cost_generator, precision: 0, unit: '§')}<small>/day</small></b>".html_safe, hire_band_skill_member_path(band_id: @band.id, skill_id: @skill.id, id: member.id), class: 'btn btn-primary' %>
+        <%= link_to "Hire: <b>#{as_game_currency(member.cost_generator)}<small>/day</small></b>".html_safe, hire_band_skill_member_path(band_id: band.id, skill_id: skill.id, id: member.id), class: 'btn btn-primary' %>
       </div>
     </div>
   </div>
