@@ -6,6 +6,14 @@ GIT
     hirb (0.7.3)
 
 GIT
+  remote: https://github.com/bsharpe/sidekiq-failures.git
+  revision: d2dd41e0f5cb2952176918b7b6bb1af69b793996
+  branch: master
+  specs:
+    sidekiq-failures (0.4.5)
+      sidekiq (>= 2.16.0)
+
+GIT
   remote: https://github.com/ctran/annotate_models.git
   revision: 3cfde3727795efe04c1a62bd5de199e0b01cfff5
   branch: develop
@@ -255,6 +263,9 @@ GEM
       rspec-expectations (~> 3.7.0)
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
+    rspec-sidekiq (3.0.3)
+      rspec-core (~> 3.0, >= 3.0.0)
+      sidekiq (>= 2.4.0)
     rspec-support (3.7.1)
     rubocop (0.54.0)
       parallel (~> 1.10)
@@ -289,6 +300,10 @@ GEM
       connection_pool (~> 2.2, >= 2.2.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
+    sidekiq-global_id (0.2.0)
+      activejob (>= 4.2.5)
+      globalid (>= 0.3.7, < 0.5)
+      sidekiq (>= 4.0)
     sidekiq-scheduler (2.2.1)
       redis (>= 3, < 5)
       rufus-scheduler (~> 3.2)
@@ -351,12 +366,15 @@ DEPENDENCIES
   puma
   rails (~> 5.2)
   rspec-rails
+  rspec-sidekiq
   rubocop
   sass-rails (~> 5.0)
   seedbank
   selenium-webdriver
   sentry-raven
   sidekiq
+  sidekiq-failures!
+  sidekiq-global_id
   sidekiq-scheduler
   turbolinks (~> 5)
   tzinfo-data

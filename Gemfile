@@ -34,6 +34,8 @@ gem 'devise', github: 'plataformatec/devise' # , ref: '88e9a85'
 # Background Processing
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
+gem 'sidekiq-failures', github: 'bsharpe/sidekiq-failures', branch: :master
+gem 'sidekiq-global_id'
 
 # Intra-App messaging
 # gem 'wisper'
@@ -53,6 +55,10 @@ group :development, :test do
 
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'
+end
+
+group :test do
+  gem 'rspec-sidekiq'
 end
 
 group :development do
