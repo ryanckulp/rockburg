@@ -17,27 +17,21 @@ class ActivityWorker
       buzz = @band.buzz.to_f
       fans = @band.fans.to_f
 
-      # new_fans = ((buzz.to_f/cap.to_f) * 10).ceil
-      # new_fans = new_fans.zero? ? 2 : new_fans
+      attendance = ((((fans/cap)**rand(1.1..1.7)) * 100) + (fans * (buzz / 1000))).ceil
+      attendance = attendance.zero? ? rand(1..5) : attendance
+      attendance = attendance > cap ? cap : attendance
 
-      # new_fans = fans**(buzz / 125)
-      # cap_deduction = (cap - new_fans) / 10
-      # total_new = new_fans - cap_deduction
-      # final_new = total_new <= 0 ? 2 : total_new
-
-      attendance = ((fans * rand(0.05..0.3)) + ((buzz / 100) * cap)).ceil
-      attendance = attendance.zero? ? rand(1..3) : attendance
-
-      new_fans = new_fans = (((attendance / cap)**rand(1..3.5)) * 100).ceil
-      new_fans = new_fans.zero? ? rand(1..3) : new_fans
+      new_fans = ((((attendance / cap)**rand(1..3.5)) * 100) * 0.33).ceil
+      new_fans = new_fans.zero? ? rand(1..4) : new_fans
+      new_fans = new_fans > cap ? cap : new_fans
 
       new_buzz = (((attendance / cap)**rand(1..2.5)) * 100).ceil
       new_buzz = new_buzz.zero? ? rand(1..3) : new_buzz
 
       ticket_price = 10.0
 
-      @band.increment!(:fans, new_fans)
-      @band.increment!(:buzz, new_buzz)
+      @band.increment!(:fans, new_fans.to_i)
+      @band.increment!(:buzz, new_buzz.to_i)
 
       revenue = attendance * ticket_price
 
@@ -45,8 +39,8 @@ class ActivityWorker
 
       gig.update_attributes(fans_gained: new_fans, money_made: revenue)
 
-      @band.happenings.create(what: "You made §#{revenue.to_i} from #{attendance.to_i} people at your gig!")
-      @band.happenings.create(what: "You gained #{new_fans} new fans and #{new_buzz} buzz at your gig!")
+      @band.happenings.create(what: "You made §#{revenue.to_i} from #{pluralize attendance.to_i, "person"} at your gig!")
+      @band.happenings.create(what: "You gained #{pluralize new_fans.to_i, "new fan"} and #{new_buzz} buzz at your gig!")
     when 'record_single'
       Band::AddFatigue.(band: @band, range: 10..25)
 
@@ -138,9 +132,15 @@ class ActivityWorker
     when 'rest'
       @band.members.each do |member|
         decrease_fatigue_amount = (rand(20..50) * hours.to_f / 10).ceil
+        decrease_fatigue_amount = member.trait_fatigue if decrease_fatigue_amount > member.trait_fatigue
         member.decrement!(:trait_fatigue, decrease_fatigue_amount)
         @band.happenings.create(what: "#{member.name}'s fatigue decreased by #{decrease_fatigue_amount}")
       end
     end
+  end
+
+  def pluralize number, text
+    return "#{number} #{text.pluralize}" if number != 1
+    "#{number} #{text}"
   end
 end

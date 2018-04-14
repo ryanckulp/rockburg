@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_13_001352) do
+ActiveRecord::Schema.define(version: 2018_04_13_121234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,8 +31,8 @@ ActiveRecord::Schema.define(version: 2018_04_13_001352) do
     t.datetime "updated_at", null: false
     t.bigint "manager_id"
     t.bigint "genre_id"
-    t.integer "fans", default: 0
-    t.integer "buzz", default: 0
+    t.bigint "fans", default: 0
+    t.bigint "buzz", default: 0
     t.index ["genre_id"], name: "index_bands_on_genre_id"
     t.index ["manager_id"], name: "index_bands_on_manager_id"
   end
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 2018_04_13_001352) do
     t.bigint "manager_id", null: false
     t.bigint "band_id"
     t.bigint "activity_id"
-    t.integer "amount", default: 0
-    t.integer "balance", default: 0
+    t.bigint "amount", default: 0
+    t.bigint "balance", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["activity_id"], name: "index_financials_on_activity_id"

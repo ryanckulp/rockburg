@@ -3,8 +3,8 @@
 # Table name: financials
 #
 #  id          :bigint(8)        not null, primary key
-#  amount      :integer          default(0)
-#  balance     :integer          default(0)
+#  amount      :bigint(8)        default(0)
+#  balance     :bigint(8)        default(0)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  activity_id :bigint(8)

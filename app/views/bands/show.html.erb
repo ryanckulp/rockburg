@@ -323,7 +323,10 @@
           <%= image_tag member.avatar_url, class: 'card-img-top' %>
         </div>
         <div class="card-body">
-          <h5 class="card-title"><%= member.name %></h5>
+          <h5 class="card-title d-inline"><%= member.name %></h5>
+          <%= link_to member_path(member_id: member, band_id: @band), method: :delete, data: { confirm: "Are you sure you want to fire #{member.name}?" } do %>
+            <h5 class="d-inline float-right"><%= fa_icon 'ban', class: 'text-danger' %></h5>
+          <% end %>
           <h4 class="text-success"><%= as_game_currency(member.cost_generator) %><small>/day</small></h4>
           <%= render partial: "skills/progress", locals: {skill_name: genre_skill.name, skill_level: member.skill_primary_level} %>
           <%= render partial: "skills/progress", locals: {skill_name: "Fatigue", skill_level: member.trait_fatigue, negative: true} %>

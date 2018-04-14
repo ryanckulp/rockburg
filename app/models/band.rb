@@ -3,8 +3,8 @@
 # Table name: bands
 #
 #  id         :bigint(8)        not null, primary key
-#  buzz       :integer          default(0)
-#  fans       :integer          default(0)
+#  buzz       :bigint(8)        default(0)
+#  fans       :bigint(8)        default(0)
 #  name       :string           default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

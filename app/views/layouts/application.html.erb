@@ -10,18 +10,21 @@
 
   <body>
     <header class="navbar navbar-expand-lg navbar-dark bg-primary justify-content-between">
-      <%= link_to "Rockburg", root_path, class: 'navbar-brand' %>
+      <%= link_to "🤘 Rockburg", root_path, class: 'navbar-brand' %>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <% if manager_signed_in? %>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <%= link_to "Dashboard", root_path, class: 'nav-item nav-link' %>
-          <%= link_to "Charts", charts_path, class: 'nav-item nav-link' %>
+          <%= link_to('<i class="fa fa-columns"></i> Dashboard'.html_safe, root_path, class: 'nav-item nav-link') %>
+          <%= link_to('<i class="fa fa-line-chart"></i> Charts'.html_safe, charts_path, class: 'nav-item nav-link') %>
         </div>
       </div>
       <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+        <li class="nav-item py-2 px-4">
+          <small class="text-light">Game last reset <b><u><%= time_ago_in_words('2018-04-13 15:51:17 -0500') %> ago</u></b></small>
+        </li>
         <li class="nav-item">
           <a href="#" role="button" class="text-light nav-link btn btn-success">Money <span class="badge badge-light"><%= as_game_currency(current_manager.balance) %></span></a>
         </li>
