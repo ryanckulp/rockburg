@@ -2,6 +2,7 @@ class ChartsController < ApplicationController
   def index
     @managers = Manager.includes(:most_recent_financial).order("financials.balance desc").limit(5)
     @bands = Band.order("buzz desc").limit(5)
+    @releases = Recording.order("sales desc").where.not(release_at: nil).limit(5)
   end
 
   def bands
@@ -10,5 +11,9 @@ class ChartsController < ApplicationController
 
   def managers
     @managers = Manager.includes(:most_recent_financial).order("financials.balance desc").limit(30)
+  end
+
+  def releases
+    @releases = Recording.order("sales desc").where.not(release_at: nil).limit(30)
   end
 end

@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     collection do
       get 'bands'
       get 'managers'
+      get 'releases'
     end
   end
 
