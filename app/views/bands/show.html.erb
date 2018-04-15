@@ -21,7 +21,12 @@
         <p>Here are all the songs you've written.</p>
         <ul>
           <% @band.songs.each do |song| %>
-          <li><%= song.name %> (Quality: <%= song.quality %>)</li>
+          <li>
+            <%= song.name %> (Quality: <%= song.quality %>)
+            <%= link_to band_song_path(@band, song), method: :delete, data: { confirm: "Are you sure you want to delete #{song.name}?" } do %>
+              <%= fa_icon 'ban', class: 'text-danger d-inline float-right' %>
+            <% end %>
+          </li>
           <% end %>
         </ul>
       </div>
