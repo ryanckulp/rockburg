@@ -15,4 +15,7 @@
 
 class Happening < ApplicationRecord
   belongs_to :band
+
+  ## -- SCOPES
+  scope :recent, ->{ order(created_at: :desc) }
 end

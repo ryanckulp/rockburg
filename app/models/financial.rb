@@ -23,14 +23,17 @@ class Financial < ApplicationRecord
   has_many :activities
   belongs_to :manager
 
-  after_create :adjust_balance
+  after_commit :adjust_balance, on: :create
+
+  scope :recent, -> { order(created_at: :desc) }
+  scope :most_recent, ->{ recent.limit(1) }
 
   def adjust_balance
     line_item = amount
     if balance.zero?
-      last_balance = manager.financials.order('created_at DESC').offset(1).first.balance
+      last_balance = manager.financials.recent.second.balance
       new_balance = last_balance + line_item
-      update_attributes(balance: new_balance)
+      update_columns(balance: new_balance)
     end
   end
 end

@@ -27,15 +27,28 @@
 #
 
 class Member < ApplicationRecord
+  ## -- RELATIONSHIPS
   belongs_to :primary_skill, class_name: 'Skill', foreign_key: :skill_primary
   belongs_to :secondary_skill, class_name: 'Skill', foreign_key: :skill_secondary, optional: true
   belongs_to :tertiary_skill, class_name: 'Skill', foreign_key: :skill_tertiary, optional: true
   has_many :member_bands
   has_many :bands, through: :member_bands
 
+  ## -- SCOPES
+  scope :with_skill, ->(skill) { where("skill_primary = :skill_id OR skill_secondary = :skill_id OR skill_tertiary = :skill_id", skill_id: Skill.ensure(skill).id)}
+
+  ## — INSTANCE METHODS
   def age
     now = Time.now.utc.to_date
     now.year - birthdate.year - (now.month > birthdate.month || (now.month == birthdate.month && now.day >= birthdate.day) ? 0 : 1)
+  end
+
+  GENDER_MAP = {
+    'M' => 'male',
+    'F' => 'female'
+  }
+  def gender
+    GENDER_MAP[super] || super
   end
 
   def cost_generator

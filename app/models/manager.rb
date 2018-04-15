@@ -31,17 +31,21 @@ class Manager < ApplicationRecord
 
   has_many :bands
   has_many :financials
+
+  has_one :most_recent_financial, ->{ most_recent }, class_name: Financial.name
+
   has_many :members, through: :bands
 
   validates :name, uniqueness: true
 
   after_create :give_starting_balance
 
+
   def give_starting_balance
     self.financials.create!(amount: 50_000, balance: 50_000)
   end
 
   def balance
-    self.financials.last.balance
+    self.financials.recent.first.balance
   end
 end

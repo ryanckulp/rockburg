@@ -34,6 +34,8 @@ gem 'devise', github: 'plataformatec/devise' # , ref: '88e9a85'
 # Background Processing
 gem 'sidekiq'
 gem 'sidekiq-scheduler'
+gem 'sidekiq-failures', github: 'bsharpe/sidekiq-failures', branch: :master
+gem 'sidekiq-global_id'
 
 # Intra-App messaging
 # gem 'wisper'
@@ -57,6 +59,10 @@ group :development, :test do
   gem 'selenium-webdriver'
 end
 
+group :test do
+  gem 'rspec-sidekiq'
+end
+
 group :development do
   gem "better_errors" # Better error page for Rack apps
   gem "binding_of_caller"
@@ -65,6 +71,7 @@ group :development do
   gem 'bundleup', require: false # know which gems need updating
   gem 'hirb', github: 'bsharpe/hirb', branch: :master # nice record display in console
   gem 'rubocop', require: false # style cop
+  gem 'foreman', require: false # running background workers
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -19,6 +19,13 @@ class Genre < ApplicationRecord
   has_many :skills, through: :genre_skills
 
   def full_genre
-    "#{name} - #{style} (#{pluralize(min_members, 'member')})"
+    result = "#{name} - #{style} ("
+    if min_members < max_members
+      result << "#{min_members}-#{pluralize(max_members, 'member')}"
+    else
+      result << "#{pluralize(min_members, 'member')}"
+    end
+    result << ")"
+    result
   end
 end
