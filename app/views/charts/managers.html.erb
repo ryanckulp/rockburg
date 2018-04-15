@@ -1,0 +1,27 @@
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><%= link_to "Charts", charts_path %></li>
+    <li class="breadcrumb-item active" aria-current="page">Top Managers</li>
+  </ol>
+</nav>
+
+<h1>Top Managers</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Rank</th>
+      <th scope="col">Manager</th>
+      <th scope="col">Cash</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @managers.each_with_index do |manager, index| %>
+    <tr>
+      <th scope="row"><%= index + 1 %></th>
+      <td><%= manager.name %></td>
+      <td>§<%= number_with_delimiter(manager.balance) %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>

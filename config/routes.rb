@@ -15,7 +15,12 @@ Rails.application.routes.draw do
   end
   resources :members
   resources :skills
-  resources :charts
+  resources :charts do
+    collection do
+      get 'bands'
+      get 'managers'
+    end
+  end
 
   devise_for :managers
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
