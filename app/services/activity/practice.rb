@@ -1,4 +1,4 @@
-class Activity::StartPractice < ApplicationService
+class Activity::Practice < ApplicationService
   expects do
     required(:band).filled
     required(:hours).filled.value(type?: Integer)
@@ -8,6 +8,7 @@ class Activity::StartPractice < ApplicationService
 
   before do
     context.band = Band.ensure(band)
+    context.hours = hours.to_i
     context.fail! unless hours.positive?
   end
 
