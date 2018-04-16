@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
-
+  devise_for :managers
+  
   resources :bands do
     resources :activities
     resources :songs
@@ -27,7 +28,6 @@ Rails.application.routes.draw do
 
   get 'dashboard', to: 'managers#index', as: :dashboard
 
-  devise_for :managers
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   root to: "pages#index"

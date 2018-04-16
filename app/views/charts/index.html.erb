@@ -37,7 +37,7 @@
     <% @bands.each_with_index do |band, index| %>
     <tr>
       <th scope="row"><%= index + 1 %></th>
-      <td><%= band.name %></td>
+      <td><%= link_to band.name, band_path(band) %></td>
       <td><%= band.genre.name %></td>
       <td><%= link_to band.manager.name, manager_path(band.manager) %></td>
       <td><%= band.buzz %></td>
@@ -64,7 +64,7 @@
     <tr>
       <th scope="row"><%= index + 1 %></th>
       <td><%= release.name %></td>
-      <td><%= release.band.name %></td>
+      <td><%= link_to releases.band.name, band_path(releases.band) %></td>
       <td><%= release.band.genre.name %></td>
       <td><%= link_to release.band.manager.name, manager_path(release.band.manager) %><%=  %></td>
       <td><%= release.sales %></td>

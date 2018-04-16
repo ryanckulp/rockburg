@@ -21,7 +21,7 @@
     <% @bands.each_with_index do |band, index| %>
     <tr>
       <th scope="row"><%= index + 1 %></th>
-      <td><%= band.name %></td>
+      <td><%= link_to band.name, band_path(band) %></td>
       <td><%= band.genre.name %></td>
       <td><%= link_to band.manager.name, manager_path(band.manager) %></td>
       <td><%= band.buzz %></td>
