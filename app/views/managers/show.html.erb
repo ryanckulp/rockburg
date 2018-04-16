@@ -1,0 +1,17 @@
+<h1><%= @manager.name %></h1>
+<h2><b><%= as_game_currency(@manager.balance) %></b></h2>
+<hr>
+<h2>Bands</h2>
+<div class="row">
+  <% @bands.each do |band| %>
+  <div class="col-sm-3 mb-5">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><%= band.name %></h5>
+        <h6 class="card-subtitle mb-2 text-muted"><%= band.genre.name %> - <%= band.genre.style %></h6>
+        <p>Fans: <b><%= band.fans %></b> &bull; Buzz: <b><%= band.buzz %></b></p>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>

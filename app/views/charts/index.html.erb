@@ -13,7 +13,7 @@
     <% @managers.each_with_index do |manager, index| %>
     <tr>
       <th scope="row"><%= index + 1 %></th>
-      <td><%= manager.name %></td>
+      <td><%= link_to manager.name, manager_path(manager) %></td>
       <td>§<%= number_with_delimiter(manager.balance) %></td>
     </tr>
     <% end %>
@@ -39,7 +39,7 @@
       <th scope="row"><%= index + 1 %></th>
       <td><%= band.name %></td>
       <td><%= band.genre.name %></td>
-      <td><%= band.manager.name %></td>
+      <td><%= link_to band.manager.name, manager_path(band.manager) %></td>
       <td><%= band.buzz %></td>
     </tr>
     <% end %>
@@ -66,7 +66,7 @@
       <td><%= release.name %></td>
       <td><%= release.band.name %></td>
       <td><%= release.band.genre.name %></td>
-      <td><%= release.band.manager.name %></td>
+      <td><%= link_to release.band.manager.name, manager_path(release.band.manager) %><%=  %></td>
       <td><%= release.sales %></td>
     </tr>
     <% end %>

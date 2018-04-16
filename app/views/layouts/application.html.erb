@@ -19,6 +19,7 @@
         <div class="navbar-nav">
           <%= link_to('<i class="fa fa-columns"></i> Dashboard'.html_safe, dashboard_path, class: 'nav-item nav-link') %>
           <%= link_to('<i class="fa fa-line-chart"></i> Charts'.html_safe, charts_path, class: 'nav-item nav-link') %>
+          <%= link_to('<i class="fa fa-user-circle"></i> Profile'.html_safe, manager_path(current_manager), class: 'nav-item nav-link') %>
         </div>
       </div>
       <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">

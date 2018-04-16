@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :managers
   resources :members
   resources :skills
   resources :charts do

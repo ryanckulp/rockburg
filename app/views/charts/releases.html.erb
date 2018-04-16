@@ -25,7 +25,7 @@
       <td><%= release.name %></td>
       <td><%= release.band.name %></td>
       <td><%= release.band.genre.name %></td>
-      <td><%= release.band.manager.name %></td>
+      <td><%= link_to release.band.manager.name, manager_path(release.band.manager) %></td>
       <td><%= release.sales %></td>
     </tr>
     <% end %>
