@@ -130,12 +130,7 @@ class ActivityWorker
 
       @band.happenings.create(what: "You made §#{earnings.to_i} from your release of #{recording.name}!")
     when 'rest'
-      @band.members.each do |member|
-        decrease_fatigue_amount = (rand(20..50) * hours.to_f / 10).ceil
-        decrease_fatigue_amount = member.trait_fatigue if decrease_fatigue_amount > member.trait_fatigue
-        member.decrement!(:trait_fatigue, decrease_fatigue_amount)
-        @band.happenings.create(what: "#{member.name}'s fatigue decreased by #{decrease_fatigue_amount}")
-      end
+      Band::RemoveFatigue.(band: @band, hours: hours)
     end
   end
 
