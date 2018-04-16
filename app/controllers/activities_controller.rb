@@ -40,7 +40,7 @@ class ActivitiesController < ApplicationController
       ActivityWorker.perform_at(end_at, params[:band_id], 'release', hours, release.id)
 
     when 'rest'
-      @activity = Activity::WriteSong.(band: params[:band_id], hours: params[:hours].to_i).activity
+      @activity = Activity::Rest.(band: params[:band_id], hours: params[:hours].to_i).activity
     end
 
     if @activity.save
