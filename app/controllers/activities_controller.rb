@@ -4,18 +4,13 @@ class ActivitiesController < ApplicationController
 
     case params[:type]
     when 'practice'
-      @activity = Activity::StartPractice.(band: params[:band_id], hours: params[:hours].to_i).activity
+      @activity = Activity::Practice.(band: params[:band_id], hours: params[:hours]).activity
 
     when 'write_song'
-      @activity = Activity::WriteSong.(band: params[:band_id], hours: params[:hours].to_i).activity
+      @activity = Activity::WriteSong.(band: params[:band_id], hours: params[:hours]).activity
 
     when 'gig'
-      hours = 6
-      end_at = Time.now + hours.seconds
-      @activity = Activity.new(band_id: params[:band_id], action: 'gig', starts_at: Time.now, ends_at: end_at)
-      venue = Venue.find_by_id(params[:venue])
-      gig = @band.gigs.create(venue_id: venue.id, played_on: Date.today)
-      ActivityWorker.perform_at(end_at, params[:band_id], 'gig', hours, gig.id)
+      @activity = Activity::PlayGig.(band: params[:band_id], venue: params[:venue], hours: params[:hours]).activity
 
     when 'record_single'
       hours = 24
