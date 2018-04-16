@@ -1,0 +1,27 @@
+<div class="row">
+  <% Member.offset(rand(Member.count) - 4).limit(4).each do |member| %>
+  <div class="col-sm-3 mb-5">
+    <div class="card">
+      <div class="card-img-pad">
+        <%= image_tag member.avatar_url, class: 'card-img-top' %>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><%= member.name %></h5>
+        <h4 class="text-success"><%= as_game_currency(member.cost_generator) %><small>/day</small></h4>
+        <%= render partial: "skills/progress", locals: {skill_name: "Instrument", skill_level: member.skill_primary_level} %>
+        <%= render partial: "skills/progress", locals: {skill_name: "Creativity", skill_level: member.trait_creativity} %>
+        <%= render partial: "skills/progress", locals: {skill_name: "Looks", skill_level: member.trait_looks} %>
+        <%= render partial: "skills/progress", locals: {skill_name: "Ego", skill_level: member.trait_ego, negative: true} %>
+
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+<div class="jumbotron">
+  <h1 class="display-3">Rockburg</h1>
+  <h2>Music industry simulation game</h2>
+  <p class="lead">Rockburg is a music industry simulation game! Take on the role of manager, creating bands, venues, recording studios and more as you build your empire!</p>
+  <hr class="my-4">
+  <%= link_to "Sign Up", new_manager_registration_path, class: 'btn btn-primary btn-lg' %>
+</div>
