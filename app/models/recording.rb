@@ -30,4 +30,9 @@ class Recording < ApplicationRecord
   def full_recording
     "#{name} - (#{kind} -- Quality: #{quality})"
   end
+
+  delegate :fans, :buzz, to: :band
+  def calc_streams
+    (fans + (fans * (buzz / 100.0))) * (quality / 100.0)
+  end
 end

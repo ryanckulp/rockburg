@@ -18,29 +18,24 @@ class Band::DailyUpdate < ApplicationService
     daily_running_costs = 0
     band.members.each do |member|
       daily_running_costs = daily_running_costs + member.cost_generator
-
-      # Rest
-      decrease_fatigue_amount = rand(20..50).ceil
-      member.decrement!(:trait_fatigue, decrease_fatigue_amount)
-      band.happenings.create(what: "#{member.name}'s fatigue decreased by #{decrease_fatigue_amount}")
     end
+
+    # Rest
+    Band::RemoveFatigue.(band: band, hours: 8)
+
     band.happenings.create(what: "#{band.name} spent §#{daily_running_costs} on daily running costs.")
 
     context.daily_running_costs = daily_running_costs
   end
 
+  STREAMING_RATE = 0.03
   def calc_release_earnings(band)
     # Release earnings
     band.recordings.where.not(release_at:nil).each do |recording|
-      buzz = band.buzz
-      fans = band.fans
-      quality = recording.quality
       days_since_release =  (Time.now.to_date - recording.release_at.to_date).to_i
 
-      streaming_rate = 0.03
-      streams = (fans + (fans * (buzz/100))) * (quality/100) - (fans * (days_since_release * 0.05))
-
-      earnings = (streaming_rate * streaming_rate).ceil
+      streams = recording.calc_streams - (band.fans * (days_since_release * 0.05))
+      earnings = (streams * STREAMING_RATE).ceil
 
       context.earnings = earnings
       recording.increment!(:sales, earnings)
@@ -50,14 +45,14 @@ class Band::DailyUpdate < ApplicationService
 
   def decay_buzz(band)
     # Decay buzz
-    decayed_buzz = band.buzz - (band.buzz * 0.1).ceil
+    decayed_buzz = (band.buzz * 0.9).ceil
     band.update_attributes(buzz: decayed_buzz)
     band.happenings.create(what: "#{band.name}'s buzz decreased to #{decayed_buzz}.")
   end
 
   def decay_fans(band)
     # Decay fans
-    decayed_fans = band.fans - (band.fans * 0.1).ceil
+    decayed_fans = (band.fans * 0.9).ceil
     band.update_attributes(fans: decayed_fans)
     band.happenings.create(what: "#{band.name}'s fans decreased to #{decayed_fans}.")
   end

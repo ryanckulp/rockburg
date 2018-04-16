@@ -8,6 +8,8 @@ class Band::WriteSong < ApplicationService
 
   before do
     context.band = Band.ensure!(band)
+    context.hours = hours.to_i
+    context.fail!(message: "Hours must be postive") unless hours.positive?
   end
 
   def call

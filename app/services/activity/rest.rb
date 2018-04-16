@@ -1,4 +1,4 @@
-class Activity::StartPractice < ApplicationService
+class Activity::Rest < ApplicationService
   expects do
     required(:band).filled
     required(:hours).filled.value(type?: Integer)
@@ -8,13 +8,14 @@ class Activity::StartPractice < ApplicationService
 
   before do
     context.band = Band.ensure(band)
+    context.hours = hours.to_i
     context.fail! unless hours.positive?
   end
 
   def call
     start_at = Time.current
     end_at = start_at + hours.seconds
-    context.activity = Activity.create!(band: band, action: :practice, starts_at: start_at, ends_at: end_at)
-    Band::PracticeWorker.perform_at(end_at, band.to_global_id, hours)
+    context.activity = Activity.create!(band: band, action: :rest, starts_at: start_at, ends_at: end_at)
+    Band::RestWorker.perform_at(end_at, band.to_global_id, hours)
   end
 end
