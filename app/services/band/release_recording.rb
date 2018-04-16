@@ -16,9 +16,7 @@ class Band::ReleaseRecording < ApplicationService
     recording.transaction do
       recording.release_at = Time.current
 
-      streams = recording.calc_streams
-
-      recording.sales = (STREAMING_RATE * streams).ceil
+      recording.sales = (STREAMING_RATE * recording.calc_streams).ceil
       recording.save!
 
       Band::EarnMoney.(band: band, amount: recording.sales)

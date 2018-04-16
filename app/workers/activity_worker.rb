@@ -15,8 +15,6 @@ class ActivityWorker
       Band::RecordSingle(band: @band, recording: song_id, hours: hours)
 
     when 'record_album'
-      Band::AddFatigue.(band: @band, range: 25..75)
-
       @recording = Recording.find_by_id(song_id)
       studio = @recording.studio.cost
       song_avg = @recording.songs.average(:quality).to_i
@@ -46,6 +44,7 @@ class ActivityWorker
 
       @recording.update_attributes(quality: recording_quality)
 
+      Band::AddFatigue.(band: @band, range: 25..75)
       Band::SpendMoney.(band: @band, amount: @recording.studio.cost)
 
       @band.happenings.create(what: "#{@band.name} recorded an album named #{@recording.name}! It has a quality score of #{recording_quality} and cost §#{@recording.studio.cost} to record.")
@@ -54,9 +53,7 @@ class ActivityWorker
       recording.update_attribute(:release_at, Time.now)
 
       STREAMING_RATE = 0.03
-      streams = recording.calc_streams
-
-      earnings = (streams * STREAMING_RATE).ceil
+      earnings = (recording.calc_streams * STREAMING_RATE).ceil
 
       Band::EarnMoney.(band: @band, amount: earnings)
 
