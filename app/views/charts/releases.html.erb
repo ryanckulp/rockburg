@@ -23,7 +23,7 @@
     <tr>
       <th scope="row"><%= index + 1 %></th>
       <td><%= release.name %></td>
-      <td><%= link_to releases.band.name, band_path(releases.band) %></td>
+      <td><%= link_to release.band.name, band_path(release.band) %></td>
       <td><%= release.band.genre.name %></td>
       <td><%= link_to release.band.manager.name, manager_path(release.band.manager) %></td>
       <td><%= release.sales %></td>
