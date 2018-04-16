@@ -1,5 +1,6 @@
 class ActivityWorker
   include Sidekiq::Worker
+  STREAMING_RATE = 0.03
 
   def perform(band_id, activity, hours, song_id = nil)
     @band = Band.ensure!(band_id)
@@ -52,7 +53,6 @@ class ActivityWorker
       recording = Recording.find_by_id(song_id)
       recording.update_attribute(:release_at, Time.now)
 
-      STREAMING_RATE = 0.03
       earnings = (recording.calc_streams * STREAMING_RATE).ceil
 
       Band::EarnMoney.(band: @band, amount: earnings)
