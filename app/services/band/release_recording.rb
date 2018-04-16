@@ -16,7 +16,7 @@ class Band::ReleaseRecording < ApplicationService
     recording.transaction do
       recording.release_at = Time.current
 
-      streams = (band.fans + (band.fans * (band.buzz / 100.0))) * (recording.quality / 100.0)
+      streams = recording.calc_streams
 
       recording.sales = (STREAMING_RATE * streams).ceil
       recording.save!

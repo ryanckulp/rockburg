@@ -32,13 +32,9 @@ class Band::DailyUpdate < ApplicationService
   def calc_release_earnings(band)
     # Release earnings
     band.recordings.where.not(release_at:nil).each do |recording|
-      buzz = band.buzz
-      fans = band.fans
-      quality = recording.quality
       days_since_release =  (Time.now.to_date - recording.release_at.to_date).to_i
 
-      streams = (fans + (fans * (buzz / 100))) * (quality / 100) - (fans * (days_since_release * 0.05))
-
+      streams = recording.calc_streams - (band.fans * (days_since_release * 0.05))
       earnings = (streams * STREAMING_RATE).ceil
 
       context.earnings = earnings

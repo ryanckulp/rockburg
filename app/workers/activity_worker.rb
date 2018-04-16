@@ -2,7 +2,7 @@ class ActivityWorker
   include Sidekiq::Worker
 
   def perform(band_id, activity, hours, song_id = nil)
-    @band = Band.find_by_id(band_id)
+    @band = Band.ensure!(band_id)
 
     case activity
     when 'practice'
@@ -12,40 +12,8 @@ class ActivityWorker
     when 'gig'
       Band::PlayGig.(band: @band, hours: hours, gig: song_id)
     when 'record_single'
-      Band::AddFatigue.(band: @band, range: 10..25)
+      Band::RecordSingle(band: @band, recording: song_id, hours: hours)
 
-      @recording = Recording.find_by_id(song_id)
-      studio = @recording.studio.weight
-      song_avg = @recording.songs.average(:quality).to_i
-
-      song_mp = 40
-      studio_mp = 30
-      skill_mp = 20
-      creativity_mp = 5
-      ego_mp = 5
-      member_multiplyer = @band.members.count * 100
-
-      total_skills = @band.members.pluck(:skill_primary_level).inject(0, :+)
-      total_creativity = @band.members.pluck(:trait_creativity).inject(0, :+)
-      total_ego = @band.members.pluck(:trait_ego).inject(0, :+)
-
-      possible_points = (member_multiplyer * skill_mp) + (member_multiplyer * creativity_mp) + (Studio.order(:weight).last.weight * studio_mp) + (100 * song_mp)
-
-      quality = 100
-
-      points = (total_skills * skill_mp) + (total_creativity * creativity_mp) + (studio * studio_mp) + (song_avg * song_mp)
-
-      ego_weight = (total_ego * ego_mp).to_f / possible_points.to_f
-      total = quality * (points.to_f / possible_points.to_f)
-      ego_reduction = total * ego_weight
-
-      recording_quality = (total - ego_reduction).round
-
-      @recording.update_attributes(quality: recording_quality)
-
-      Band::SpendMoney.(band: @band, amount: @recording.studio.cost)
-
-      @band.happenings.create(what: "#{@band.name} made a recording of #{@recording.songs.map(&:name).join ','}! It has a quality score of #{recording_quality} and cost §#{@recording.studio.cost} to record.")
     when 'record_album'
       Band::AddFatigue.(band: @band, range: 25..75)
 
@@ -60,9 +28,9 @@ class ActivityWorker
       ego_mp = 5
       member_multiplyer = @band.members.count * 100
 
-      total_skills = @band.members.pluck(:skill_primary_level).inject(0, :+)
-      total_creativity = @band.members.pluck(:trait_creativity).inject(0, :+)
-      total_ego = @band.members.pluck(:trait_ego).inject(0, :+)
+      total_skills = @band.members.sum(:skill_primary_level).to_i
+      total_creativity = @band.members.sum(:trait_creativity).to_i
+      total_ego = @band.members.sum(:trait_ego).to_i
 
       possible_points = (member_multiplyer * skill_mp) + (member_multiplyer * creativity_mp) + (studio * studio_mp) + (song_avg * song_mp)
 
@@ -85,14 +53,10 @@ class ActivityWorker
       recording = Recording.find_by_id(song_id)
       recording.update_attribute(:release_at, Time.now)
 
-      buzz = @band.buzz
-      fans = @band.fans
-      quality = recording.quality
+      STREAMING_RATE = 0.03
+      streams = recording.calc_streams
 
-      streaming_rate = 0.03
-      streams = (fans + (fans * (buzz / 100))) * (quality / 100)
-
-      earnings = (streaming_rate * streaming_rate).ceil
+      earnings = (streams * STREAMING_RATE).ceil
 
       Band::EarnMoney.(band: @band, amount: earnings)
 

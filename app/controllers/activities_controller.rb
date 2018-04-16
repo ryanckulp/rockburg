@@ -10,23 +10,10 @@ class ActivitiesController < ApplicationController
       @activity = Activity::WriteSong.(band: params[:band_id], hours: params[:hours]).activity
 
     when 'gig'
-      @activity = Activity::PlayGig.(band: params[:band_id], venue: params[:venue], hours: params[:hours]).activity
+      @activity = Activity::PlayGig.(band: params[:band_id], venue: params[:venue], hours: params[:hours] || 6).activity
 
     when 'record_single'
-      hours = 24
-      end_at = Time.now + hours.seconds
-      @activity = Activity.new(band_id: params[:band_id], action: 'record_single', starts_at: Time.now, ends_at: end_at)
-
-      if params[:studio][:name].present?
-        song_name = params[:studio][:name]
-      else
-        song = Song.find_by_id(params[:song_id])
-        song_name = song.name
-      end
-
-      recording = @band.recordings.create(studio_id: params[:studio][:studio_id], kind: 'single', name: song_name)
-      SongRecording.create(recording_id: recording.id, song_id: params[:song_id])
-      ActivityWorker.perform_at(end_at, params[:band_id], 'record_single', hours, recording.id)
+      @activity = Activity::RecordSingle.(band: params[:band_id], studio: params[:studio][:id], song: params[:song_id], song_name: params[:song_name])
 
     when 'record_album'
       hours = 24
