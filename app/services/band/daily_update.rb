@@ -10,7 +10,7 @@ class Band::DailyUpdate < ApplicationService
   end
 
   def call
-    calc_daily_running_costs
+    calc_daily_running_costs(band)
   end
 
   def calc_daily_running_costs(band)

@@ -6,7 +6,7 @@ class Manager::DailyFinancials < ApplicationService
   delegate :manager, to: :context
 
   before do
-    context.manager = Manager.ensure(manager)
+    context.manager = Manager.ensure(manager["manager"])
   end
 
   def call
