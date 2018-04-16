@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Activity::Rest, type: :service do
-  let(:member1) { create(:member, primary_skill: Skill.find_by_name('Keyboards')) }
-  let(:member2) { create(:member, primary_skill: Skill.find_by_name('Drummer')) }
+  let(:member1) { create(:member, primary_skill: Skill.find_by_name('Keyboards'), trait_fatigue: 50) }
+  let(:member2) { create(:member, primary_skill: Skill.find_by_name('Drummer'), trait_fatigue: 50) }
   let(:genre) { Genre.find_by_style('Drum & Bass') }
   let(:band) { create :band, genre: genre }
 
   before do
-    band.add_member(member1, skill: member1.primary_skill, trait_fatigue: 50)
-    band.add_member(member2, skill: member2.primary_skill, trait_fatigue: 50)
+    band.add_member(member1, skill: member1.primary_skill)
+    band.add_member(member2, skill: member2.primary_skill)
   end
 
   it 'should rest a bit' do

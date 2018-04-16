@@ -1,4 +1,4 @@
-class Activity::WriteSong < ApplicationService
+class Activity::Rest < ApplicationService
   expects do
     required(:band).filled
     required(:hours).filled.value(type?: Integer)
