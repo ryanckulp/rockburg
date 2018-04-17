@@ -3,6 +3,7 @@
 # Table name: managers
 #
 #  id                     :bigint(8)        not null, primary key
+#  balance                :bigint(8)        default(0)
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  email                  :string           default(""), not null
@@ -19,6 +20,7 @@
 #
 # Indexes
 #
+#  index_managers_on_balance               (balance)
 #  index_managers_on_email                 (email) UNIQUE
 #  index_managers_on_reset_password_token  (reset_password_token) UNIQUE
 #

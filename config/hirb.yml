@@ -1,0 +1,10 @@
+---
+:output:
+  Manager:
+    :fields:
+      - id
+      - name
+      - email
+      - sign_in_count
+      - balance
+

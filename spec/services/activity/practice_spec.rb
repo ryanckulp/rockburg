@@ -12,7 +12,6 @@ RSpec.describe Activity::Practice, type: :service do
   end
 
   it 'should rest a bit' do
-    require 'sidekiq/testing'
     m1_before = member1.skill_primary_level
     m2_before = member2.skill_primary_level
 

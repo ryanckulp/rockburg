@@ -13,7 +13,6 @@ RSpec.describe Activity::PlayGig, type: :service do
   end
 
   it 'should rest a bit' do
-    require 'sidekiq/testing'
     m1_before = member1.trait_fatigue
     m2_before = member2.trait_fatigue
 
