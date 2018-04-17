@@ -1,7 +1,7 @@
 <h1><%= @manager.name %></h1>
 <h2><b><%= as_game_currency(@manager.balance) %></b></h2>
 <hr>
-<h2>Bands</h2>
+<h2>Bands <%= link_to "Start a new band", new_band_path, class: 'btn btn-primary btn-sm' if current_manager == @manager %></h2>
 <div class="row">
   <% @bands.each do |band| %>
   <div class="col-sm-3 mb-5">
@@ -11,6 +11,13 @@
         <h6 class="card-subtitle mb-2 text-muted"><%= band.genre.name %> - <%= band.genre.style %></h6>
         <p>Fans: <b><%= band.fans %></b> &bull; Buzz: <b><%= band.buzz %></b></p>
       </div>
+    </div>
+  </div>
+  <% end %>
+  <% if current_manager == @manager %>
+  <div class="col-sm-3 mb-5">
+    <div class="card">
+      <%= link_to "<i class='fa fa-user-plus' style='font-size:64px'></i><br /> Start a new band".html_safe, new_band_path, class: 'btn btn-success btn-lg card-body' %>
     </div>
   </div>
   <% end %>

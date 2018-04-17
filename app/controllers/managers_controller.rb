@@ -2,7 +2,9 @@ class ManagersController < ApplicationController
   before_action :authenticate_manager!
 
   def index
+    @manager = current_manager
     @bands = current_manager.bands.all
+    render(:action => 'show')
   end
 
   def show
