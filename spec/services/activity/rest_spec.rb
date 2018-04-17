@@ -12,7 +12,6 @@ RSpec.describe Activity::Rest, type: :service do
   end
 
   it 'should rest a bit' do
-    require 'sidekiq/testing'
     m1_fatigue = member1.trait_fatigue
     m2_fatigue = member2.trait_fatigue
 

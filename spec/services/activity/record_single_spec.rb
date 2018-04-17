@@ -14,7 +14,6 @@ RSpec.describe Activity::RecordSingle, type: :service do
   end
 
   it 'should record a single' do
-    require 'sidekiq/testing'
     balance = band.manager.balance
     expect {
       Sidekiq::Testing.inline! do
@@ -23,6 +22,7 @@ RSpec.describe Activity::RecordSingle, type: :service do
         expect(result.activity).to be_present
       end
     }.to change{ band.recordings.count }.by(1)
+    band.manager.reload
     expect(balance).to be > band.manager.balance
   end
 end

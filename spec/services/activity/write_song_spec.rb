@@ -12,7 +12,6 @@ RSpec.describe Activity::WriteSong, type: :service do
   end
 
   it 'should write a song' do
-    require 'sidekiq/testing'
     expect {
       Sidekiq::Testing.inline! do
         result = described_class.call(band: band, hours: 1)

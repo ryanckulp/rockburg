@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/bsharpe/hirb.git
-  revision: 7b036f464b0caa58619f8e623c8b7f52268b64c9
+  revision: dec26c0905a0475d3f58be45709038f50f58759d
   branch: master
   specs:
     hirb (0.7.3)
