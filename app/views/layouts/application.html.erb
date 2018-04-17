@@ -24,7 +24,8 @@
       </div>
       <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
         <li class="nav-item py-2 px-4">
-          <small class="text-light">Game last reset <b><u><%= time_ago_in_words('2018-04-13 15:51:17 -0500', vague: true) %> ago</u></b></small>
+          <%- last_reset = Time.parse(GameDatum.get(:last_reset) ||' 2018-04-13 15:51:17 -0500')%>
+          <small class="text-light">Game last reset <b><u><%= time_ago_in_words(last_reset, vague: true) %> ago</u></b></small>
         </li>
         <li class="nav-item">
           <a href="#" role="button" class="text-light nav-link btn btn-success">Money <span class="badge badge-light"><%= as_game_currency(current_manager.balance) %></span></a>

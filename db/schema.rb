@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_04_17_131111) do
+ActiveRecord::Schema.define(version: 2018_04_17_230557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,14 @@ ActiveRecord::Schema.define(version: 2018_04_17_131111) do
     t.index ["activity_id"], name: "index_financials_on_activity_id"
     t.index ["band_id"], name: "index_financials_on_band_id"
     t.index ["manager_id"], name: "index_financials_on_manager_id"
+  end
+
+  create_table "game_data", force: :cascade do |t|
+    t.string "key"
+    t.jsonb "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_game_data_on_key", unique: true
   end
 
   create_table "genre_skills", force: :cascade do |t|
