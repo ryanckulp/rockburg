@@ -18,11 +18,18 @@ class Member::Practice < ApplicationService
     increase_fatigue = (rand(1..10) * hours / 5.0).ceil
 
     Member.transaction do
+      if member.trait_fatigue + increase_fatigue > 100
+        member.trait_fatigue = 100
+      else
+        member.trait_fatigue += increase_fatigue
+      end
+
+
       context.skill_change = increase_skill
       context.fatigue_change = increase_fatigue
 
       member.skill_primary_level += increase_skill
-      member.trait_fatigue += increase_fatigue
+
       member.save!
 
       # broadcast(:stat_change, {stat: :skill_primary_level, member: member.to_global_id, change: increase_skill})

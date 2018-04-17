@@ -13,8 +13,18 @@ class Band::AddFatigue < ApplicationService
   def call
     band.members.each do |member|
       increase_fatigue_amount = rand(range)
-      member.increment!(:trait_fatigue, increase_fatigue_amount)
-      band.happenings.create(what: "#{member.name}'s fatigue increased by #{increase_fatigue_amount}")
+
+      if member.trait_fatigue + increase_fatigue_amount > 100
+        member.trait_fatigue = 100
+        increased_by = "is maxed out at 100"
+      else
+        member.trait_fatigue += increase_fatigue_amount
+        increased_by = "increased by #{increase_fatigue_amount}"
+      end
+
+      member.save
+
+      band.happenings.create(what: "#{member.name}'s fatigue #{increased_by}")
     end
   end
 end
