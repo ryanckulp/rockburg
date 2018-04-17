@@ -41,4 +41,8 @@ class Band < ApplicationRecord
     skill ||= member.primary_skill
     self.member_bands.create(member: member, skill: skill)
   end
+
+  def overly_fatigued_members?
+    members.pluck(:trait_fatigue).any?{|x| x >= 100 }
+  end
 end
