@@ -2,10 +2,11 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
   devise_for :managers
-  
+
   resources :bands do
     resources :activities
     resources :songs
+    resources :recordings
     resources :skills do
       resources :members do
         member do

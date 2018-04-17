@@ -46,7 +46,14 @@
         <p>Here are all the songs <%= @band.name %> has recorded.</p>
         <ul>
           <% @band.recordings.each do |recording| %>
-          <li><%= recording.name %> (<%= recording.kind %> -- Quality: <%= recording.quality %>)</li>
+          <li>
+            <%= recording.name %> (<%= recording.kind %> -- Quality: <%= recording.quality %>)
+            <% if manager_signed_in? and @band.manager == current_manager %>
+            <%= link_to band_recording_path(@band, recording), method: :delete, data: { confirm: "Are you sure you want to delete #{recording.name}?" } do %>
+              <%= fa_icon 'ban', class: 'text-danger d-inline float-right' %>
+            <% end %>
+            <% end %>
+          </li>
           <% end %>
         </ul>
       </div>
