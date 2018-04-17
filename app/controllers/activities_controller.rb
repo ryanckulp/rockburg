@@ -16,28 +16,10 @@ class ActivitiesController < ApplicationController
       @activity = Activity::RecordSingle.(band: params[:band_id], studio: params[:studio][:id], song: params[:song_id], song_name: params[:song_name])
 
     when 'record_album'
-      hours = 24
-      end_at = Time.now + hours.seconds
-      @activity = Activity.new(band_id: params[:band_id], action: 'record_album', starts_at: Time.now, ends_at: end_at)
-
-      album_name = params[:studio][:name].present? ? params[:studio][:name] : Generator.album_name
-
-      album = @band.recordings.create(studio_id: params[:studio][:studio_id], kind: 'album', name: album_name)
-
-      recordings = params[:recording_ids]
-      recordings.each do |recording|
-        SingleAlbum.create!(album_id: album.id, single_id: recording.to_i)
-      end
-      ActivityWorker.perform_at(end_at, params[:band_id], 'record_album', hours, album.id)
+      @activity = Activity::RecordAlbum.(band: params[:band_id], studio: params[:studio][:id], recording_ids: params[:recording_ids])
 
     when 'release'
-      hours = 24
-      end_at = Time.now + hours.seconds
-      @activity = Activity.new(band_id: params[:band_id], action: 'release', starts_at: Time.now, ends_at: end_at)
-
-      release = Recording.find_by_id(params[:recording][:id])
-
-      ActivityWorker.perform_at(end_at, params[:band_id], 'release', hours, release.id)
+      @activity = Activity::ReleaseRecording.(band: params[:band_id], recording: params[:recording][:id], hours: 24)
 
     when 'rest'
       @activity = Activity::WriteSong.(band: params[:band_id], hours: params[:hours].to_i).activity

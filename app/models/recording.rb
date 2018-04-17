@@ -27,6 +27,9 @@ class Recording < ApplicationRecord
   has_many :single_albums, foreign_key: :album_id
   has_many :singles, through: :single_albums, source: :recording
 
+  scope :albums, ->{ where(kind: :album) }
+  scope :singles, ->{ where(kind: :single) }
+
   def full_recording
     "#{name} - (#{kind} -- Quality: #{quality})"
   end

@@ -1,4 +1,7 @@
 class Band::ReleaseRecording < ApplicationService
+  include ActionView::Helpers::NumberHelper
+  include ApplicationHelper
+
   expects do
     required(:band).filled
     required(:recording).filled
@@ -21,7 +24,7 @@ class Band::ReleaseRecording < ApplicationService
 
       Band::EarnMoney.(band: band, amount: recording.sales)
 
-      band.happenings.create(what: "You made §#{ActiveSupport::NumberHelper.number_to_delimited(recording.sales.to_i)} from your release of #{recording.name}!")
+      band.happenings.create(what: "You made #{as_game_currency(recording.sales.to_i)} from your release of #{recording.name}!")
     end
   end
 end
