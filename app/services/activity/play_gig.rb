@@ -9,7 +9,7 @@ class Activity::PlayGig < ApplicationService
 
   before do
     context.band = Band.ensure(band)
-    context.venut = Venue.ensure(venue)
+    context.venue = Venue.ensure(venue)
     context.hours = hours.to_i
     context.fail! unless hours.positive?
   end
@@ -22,4 +22,3 @@ class Activity::PlayGig < ApplicationService
     Band::PlayGigWorker.perform_at(end_at, band.to_global_id, gig.to_global_id, hours)
   end
 end
-

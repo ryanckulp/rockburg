@@ -8,12 +8,12 @@ class Activity::WriteSong < ApplicationService
 
   before do
     context.band = Band.ensure(band)
-    context.fail! unless hours.positive?
+    context.fail! unless hours.to_i.positive?
   end
 
   def call
     start_at = Time.current
-    end_at = start_at + hours.seconds
+    end_at = start_at + hours.to_i.seconds
     context.activity = Activity.create!(band: band, action: :write_song, starts_at: start_at, ends_at: end_at)
     Band::WriteSongWorker.perform_at(end_at, band.to_global_id, hours)
   end
