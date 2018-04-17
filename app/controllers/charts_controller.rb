@@ -1,6 +1,6 @@
 class ChartsController < ApplicationController
   def index
-    @managers = Manager.joins(:bands).order(balance: :desc).limit(5)
+    @managers = Manager.joins(:bands).order(balance: :desc).group('id').limit(5)
     @bands = Band.order(buzz: :desc).limit(5)
     @releases = Recording.order(sales: :desc).where.not(release_at: nil).limit(5)
   end
