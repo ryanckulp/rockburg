@@ -13,7 +13,7 @@ class ActivitiesController < ApplicationController
       @activity = Activity::PlayGig.(band: params[:band_id], venue: params[:venue], hours: params[:hours] || 6).activity
 
     when 'record_single'
-      @activity = Activity::RecordSingle.(band: params[:band_id], studio: params[:studio][:id], song: params[:song_id], song_name: params[:song_name])
+      @activity = Activity::RecordSingle.(band: params[:band_id], studio: params[:studio][:studio_id], song: params[:song_id], song_name: params[:studio][:song_name]).activity
 
     when 'record_album'
       hours = 24
