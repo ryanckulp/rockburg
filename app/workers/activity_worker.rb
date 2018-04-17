@@ -13,7 +13,7 @@ class ActivityWorker
     when 'gig'
       Band::PlayGig.(band: @band, hours: hours, gig: song_id)
     when 'record_single'
-      Band::RecordSingle(band: @band, recording: song_id, hours: hours)
+      Band::RecordSingle.(band: @band, recording: song_id, hours: hours)
 
     when 'record_album'
       @recording = Recording.find_by_id(song_id)
