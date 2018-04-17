@@ -1,6 +1,6 @@
 class ActivitiesController < ApplicationController
   def new
-    @band = Band.find_by_id(params[:band_id])
+    @band = Band.ensure!(params[:band_id])
 
     case params[:type]
     when 'practice'
@@ -22,11 +22,14 @@ class ActivitiesController < ApplicationController
       @activity = Activity::ReleaseRecording.(band: params[:band_id], recording: params[:recording][:id], hours: 24)
 
     when 'rest'
-      @activity = Activity::Rest.(band: params[:band_id], hours: params[:hours].to_i).activity
+      @activity = Activity::Rest.(band: params[:band_id], hours: params[:hours]).activity
+
+    else
+      raise ArgumentError.new("Unknown Type[#{params[:type]}]")
     end
 
     if @activity.save
-      redirect_to band_path(params[:band_id]), alert: "Activity started."
+      redirect_to band_path(@band), alert: "Activity started."
     end
   end
 end

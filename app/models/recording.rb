@@ -20,6 +20,7 @@
 #
 
 class Recording < ApplicationRecord
+  ## -- RELATIONSHIPS
   belongs_to :band
   belongs_to :studio
   has_many :song_recordings
@@ -27,15 +28,14 @@ class Recording < ApplicationRecord
   has_many :single_albums, foreign_key: :album_id
   has_many :singles, through: :single_albums, source: :recording
 
+  ## -- SCOPES
   scope :albums, ->{ where(kind: :album) }
   scope :singles, ->{ where(kind: :single) }
+  scope :released, ->{ where.not(released_at: nil) }
 
+  ## — INSTANCE METHODS
   def full_recording
     "#{name} - (#{kind} -- Quality: #{quality})"
   end
 
-  delegate :fans, :buzz, to: :band
-  def calc_streams
-    (fans + (fans * (buzz / 100.0))) * (quality / 100.0)
-  end
 end

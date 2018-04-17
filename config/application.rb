@@ -21,6 +21,18 @@ module Rockburg
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    config.generators do |generate|
+      generate.helper             false
+      generate.javascript_engine  false
+      generate.test_framework     :rspec
+      generate.request_specs      false
+      generate.routing_specs      false
+      generate.stylesheets        false
+      generate.view_specs         false
+      generate.model_specs        false
+      generate.factory_bot        dir: 'spec/factories/'
+    end
+
     # ActiveRecord time_zone
     config.active_record.default_timezone = :utc
     config.active_record.time_zone_aware_types = %i[datetime time]
