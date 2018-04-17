@@ -45,7 +45,7 @@ class Band::DailyUpdate < ApplicationService
 
   def decay_buzz(band)
     # Decay buzz
-    decayed_buzz = (band.buzz * 0.9).ceil
+    decayed_buzz = (band.buzz * 0.75).ceil
     band.update_attributes(buzz: decayed_buzz)
     band.happenings.create(what: "#{band.name}'s buzz decreased to #{decayed_buzz}.")
   end
