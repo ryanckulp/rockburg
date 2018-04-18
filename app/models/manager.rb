@@ -31,6 +31,9 @@ class Manager < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  ## -- SCOPES
+  scope :with_bands, -> { joins(:bands) }
+
   ## -- RELATIONSHIPS
   has_many :bands
   has_many :financials
