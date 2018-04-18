@@ -14,7 +14,7 @@ class Activity::Rest < ApplicationService
 
   def call
     start_at = Time.current
-    end_at = start_at + hours.seconds
+    end_at = start_at + hours * ENV["SECONDS_PER_GAME_HOUR"].to_i
     context.activity = Activity.create!(band: band, action: :rest, starts_at: start_at, ends_at: end_at)
     Band::RestWorker.perform_at(end_at, band.to_global_id, hours)
   end

@@ -49,6 +49,7 @@ gem 'interactor' # service objects
 gem 'interactor-contracts' # interface contracts for service objects
 gem 'sentry-raven' # logging
 gem 'font-awesome-rails' # icons
+gem 'figaro' # environment variables
 
 group :development, :test do
   gem 'pry'
