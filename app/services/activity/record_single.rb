@@ -19,7 +19,7 @@ class Activity::RecordSingle < ApplicationService
 
   def call
     start_at = Time.current
-    end_at = start_at + hours.seconds
+    end_at = start_at + hours * ENV["SECONDS_PER_GAME_HOUR"].to_i
     context.activity = Activity.create!(band: band, action: :record_single, starts_at: start_at, ends_at: end_at)
 
     studio_name = studio.name.sub(" Recording Studio",'').sub(' Studios','').sub(' Studio','')

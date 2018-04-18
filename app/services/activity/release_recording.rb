@@ -16,7 +16,7 @@ class Activity::ReleaseRecording < ApplicationService
 
   def call
     start_at = Time.current
-    end_at = start_at + hours.seconds
+    end_at = start_at + hours * ENV["SECONDS_PER_GAME_HOUR"].to_i
     context.activity = Activity.create!(band: band, action: :release, starts_at: start_at, ends_at: end_at)
     Band::ReleaseWorker.perform_at(end_at, band.to_global_id, recording.to_global_id)
   end
