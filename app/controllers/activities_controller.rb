@@ -20,7 +20,7 @@ class ActivitiesController < ApplicationController
       context = Activity::PlayGig.call(
         band: params[:band_id],
         venue: params[:venue],
-        hours: params[:hours] || 6
+        hours: params[:hours] || 2
       )
 
     when 'record_single'

@@ -11,7 +11,7 @@ class Activity::RecordAlbum < ApplicationService
 
   before do
     context.band = Band.ensure(band)
-    context.hours = (hours || 24).to_i
+    context.hours = (hours || 60).to_i
     context.fail! unless hours.positive?
     context.studio = Studio.ensure(studio)
     context.recordings = band.recordings.ensure(context.recording_ids)

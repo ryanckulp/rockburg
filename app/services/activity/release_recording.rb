@@ -10,7 +10,7 @@ class Activity::ReleaseRecording < ApplicationService
   before do
     context.band = Band.ensure(band)
     context.recording = band.recordings.ensure(recording)
-    context.hours = (hours || 24).to_i
+    context.hours = (hours || 1).to_i
     context.fail! unless hours.positive?
   end
 

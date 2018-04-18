@@ -76,10 +76,10 @@
             var str = "";
            // if 0 number of days, show H:M:S
            if(parseInt(event.strftime('%D')) == 0) {
-               str = event.strftime('%-H hour%!H %-M minutes%!M %-S second%!S');
+               str = event.strftime('%-H hour%!H %-M minute%!M %-S second%!S');
                // if 0 days 0 hours, show M:S
                if(parseInt(event.strftime('%H')) == 0) {
-                  str = event.strftime('%-M minutes%!M %-S second%!S');
+                  str = event.strftime('%-M minute%!M %-S second%!S');
                   // if 0 days 0 hours 0 minutes, show only Seconds
                   if(parseInt(event.strftime('%M')) == 0) {
                      str = event.strftime('%-S second%!S');
@@ -110,9 +110,10 @@
               <div class="modal-body">
                 <p>The longer you practice the more skill points you may receive.</p>
                 <div class="list-group">
-                  <%= link_to "1 hour", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '1'), class: 'list-group-item list-group-item-action' %>
-                  <%= link_to "2 hours", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '2'), class: 'list-group-item list-group-item-action' %>
-                  <%= link_to "6 hours", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '6'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "1 minute", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '1'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "5 minutes", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '5'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "15 minutes", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '15'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "30 minutes", new_band_activity_path(band_id: @band.id, type: 'practice', hours: '30'), class: 'list-group-item list-group-item-action' %>
                 </div>
               </div>
             </div>
@@ -134,11 +135,10 @@
               <div class="modal-body">
                 <p>The longer you spend on your song, the higher quality it will be.</p>
                 <div class="list-group">
-                  <%= link_to "1 hour", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '1'), class: 'list-group-item list-group-item-action' %>
-                  <%= link_to "2 hours", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '2'), class: 'list-group-item list-group-item-action' %>
-                  <%= link_to "6 hours", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '6'), class: 'list-group-item list-group-item-action' %>
-                  <%= link_to "12 hours", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '12'), class: 'list-group-item list-group-item-action' %>
-                  <%= link_to "1 day", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '24'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "2 minutes", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '2'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "10 minutes", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '10'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "30 minutes", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '30'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "60 day", new_band_activity_path(band_id: @band.id, type: 'write_song', hours: '60'), class: 'list-group-item list-group-item-action' %>
                 </div>
               </div>
             </div>
@@ -160,7 +160,7 @@
               <div class="modal-body">
                 <div class="container-fluid">
                   <p>Choose a venue carefully! If you choose a high-cap venue but aren't able to sell many tickets, it will hurt the perception (and future fans) of your band.</p>
-                  <p><b>Playing a gig takes 6 hours.</b></p>
+                  <p><b>Playing a gig takes 2 minutes.</b></p>
                   <div class="row">
                     <% Venue.order('capacity ASC').each do |venue| %>
                     <div class="col-md-6 mb-3">
@@ -316,9 +316,10 @@
               <div class="modal-body">
                 <p>The longer you rest, the less fatigued you'll be.</p>
                 <div class="list-group">
-                  <%= link_to "1 hour", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '1'), class: 'list-group-item list-group-item-action' %>
-                  <%= link_to "2 hours", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '2'), class: 'list-group-item list-group-item-action' %>
-                  <%= link_to "6 hours", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '6'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "1 minute", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '1'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "5 minutes", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '5'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "15 minutes", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '15'), class: 'list-group-item list-group-item-action' %>
+                  <%= link_to "30 minutes", new_band_activity_path(band_id: @band.id, type: 'rest', hours: '30'), class: 'list-group-item list-group-item-action' %>
                 </div>
               </div>
             </div>
