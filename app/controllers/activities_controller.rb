@@ -34,7 +34,7 @@ class ActivitiesController < ApplicationController
     when 'record_album'
       context = Activity::RecordAlbum.call(
         band: params[:band_id],
-        studio: params[:studio][:id],
+        studio: params[:studio][:studio_id],
         recording_ids: params[:recording_ids]
       )
 
