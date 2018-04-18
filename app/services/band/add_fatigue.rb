@@ -16,7 +16,7 @@ class Band::AddFatigue < ApplicationService
 
       if member.trait_fatigue + increase_fatigue_amount > 100
         member.trait_fatigue = 100
-        increased_by = "is maxed out at 100"
+        increased_by = "is maxxed out at 100"
       else
         member.trait_fatigue += increase_fatigue_amount
         increased_by = "increased by #{increase_fatigue_amount}"
