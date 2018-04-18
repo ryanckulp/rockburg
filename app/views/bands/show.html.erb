@@ -69,8 +69,12 @@
     <div class="list-group">
       <% if @band.genre.min_members <= @band.members.count %>
       <% if @activity %>
+      <div class="alert alert-success alert-block text-center current_activity">
         Currently: <%= @activity.humanize_action %> for <%= distance_of_time_in_words(Time.now.utc, @activity.ends_at) %>
-      <% else %>
+      </div>
+      <% end %>
+      <div class="activity_success alert alert-success alert-block text-center" style="display:none;"></div>
+      <div class="activities"<% if @activity %> style="display:none" <% end %>>
         <!-- Practice -->
         <button type="button" class="list-group-item list-group-item-action" data-toggle="modal" data-target="#modal_practice"<% if @band.overly_fatigued_members? %> disabled<% end %>>Practice<% if @band.overly_fatigued_members? %> <b class="badge badge-info">Your members are too fatigued!</b> <% end %><br /><small>Improves the skill level of each member</small></button>
 
@@ -301,9 +305,8 @@
           </div>
         </div>
 
+      </div>
 
-
-      <% end %>
       <% else %>
         You need to hire a full band!
       <% end %>
