@@ -26,42 +26,23 @@
 #  index_managers_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-class Manager < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+require 'rails_helper'
 
-  ## -- SCOPES
-  scope :with_bands, -> { where('bands_count > 0') }
+RSpec.describe Manager, type: :model do
+  it "should update bands_count when adding a new band" do
+    mgr = create :manager
+    expect(mgr.bands.count).to eq(mgr.bands_count)
 
-  ## -- RELATIONSHIPS
-  has_many :bands, counter_cache: true
-  has_many :financials
-  has_many :members, through: :bands
-
-  ## -- VALIDATIONS
-  validates :name, uniqueness: true
-
-  ## -- CALLBACKS
-  after_create :give_starting_balance
-
-  ## — INSTANCE METHODS
-  def to_param
-    [id, name.parameterize].join("-")
+    new_band = create :band, manager: mgr
+    expect(mgr.bands.count).to eq(mgr.bands_count)
   end
 
-  def give_starting_balance
-    self.financials.create!(amount: 50_000) if !self.financials.exists?
-    self.update_balance
+  it "should update bands_count when deleting a band" do
+    band = create :band
+    mgr = band.manager
+    expect {
+      band.destroy
+    }.to change{mgr.bands_count}.by(-1)
   end
 
-  def update_balance
-    self.balance = self.financials.sum(:amount)
-  end
-
-  def update_balance!
-    cur_balance = self.update_balance
-    self.update_columns(balance: cur_balance)
-  end
 end
