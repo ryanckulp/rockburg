@@ -351,7 +351,7 @@
         <div class="card-body">
           <h4 class="card-title"><%= genre_skill.name %></h4>
           <p class="card-text"></p>
-          <%= link_to "Hire this member", band_skill_path(band_id: @band.id, id: genre_skill.id), class: 'btn btn-primary' %>
+          <%= link_to "Hire this member", band_skill_path(band_id: @band.id, id: genre_skill.id), class: 'btn btn-primary' if manager_signed_in? and @band.manager == current_manager %>
         </div>
       <% end %>
     </div>
