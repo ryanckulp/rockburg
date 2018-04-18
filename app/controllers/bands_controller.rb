@@ -25,7 +25,11 @@ class BandsController < ApplicationController
   end
 
   def show
-    @band = Band.find(params[:id])
+    @band = Band.where(id: params[:id]).first
+    if !@band
+      redirect_to dashboard_path
+      return
+    end
     @activity = @band.activities.current_activity.try(:last)
   end
 
