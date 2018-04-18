@@ -2,8 +2,8 @@ class Band::PracticeWorker < ApplicationWorker
   def perform(band, hours)
     Band::Practice.(band: band, hours: hours)
     manager = GlobalID::Locator.locate(band).manager
-    #ActionCable.server.broadcast 'activity_notifications_channel', message: 'Done!'
+    band_id = GlobalID::Locator.locate(band).id
 
-     ActionCable.server.broadcast "activity_notifications:1", message:"<div class='alert alert-warning alert-block text-center'><i class='fa fa-circle-o-notch fa-spin'></i>We did it!</div>"
+    ActionCable.server.broadcast "activity_notifications:#{manager.id}", band:band_id, message:"<i class='fa fa-check-circle'></i> Activity done!</div>"
   end
 end

@@ -55,7 +55,7 @@ class ActivitiesController < ApplicationController
     end
 
     if context && context.activity.save
-      redirect_to band_path(band), alert: "Activity started."
+      redirect_to band_path(band)
     end
   end
 end
