@@ -1,35 +1,61 @@
 class ActivitiesController < ApplicationController
   def new
-    @band = Band.ensure!(params[:band_id])
+    band = Band.ensure!(params[:band_id])
+    context = nil
 
     case params[:type]
     when 'practice'
-      @activity = Activity::Practice.(band: params[:band_id], hours: params[:hours]).activity
+      context = Activity::Practice.call(
+        band: params[:band_id],
+        hours: params[:hours]
+      )
 
     when 'write_song'
-      @activity = Activity::WriteSong.(band: params[:band_id], hours: params[:hours]).activity
+      context = Activity::WriteSong.call(
+        band: params[:band_id],
+        hours: params[:hours]
+      )
 
     when 'gig'
-      @activity = Activity::PlayGig.(band: params[:band_id], venue: params[:venue], hours: params[:hours] || 6).activity
+      context = Activity::PlayGig.call(
+        band: params[:band_id],
+        venue: params[:venue],
+        hours: params[:hours] || 6
+      )
 
     when 'record_single'
-      @activity = Activity::RecordSingle.(band: params[:band_id], studio: params[:studio][:studio_id], song: params[:song_id], song_name: params[:studio][:song_name]).activity
+      context = Activity::RecordSingle.call(
+        band: params[:band_id],
+        studio: params[:studio][:studio_id],
+        song: params[:song_id],
+        song_name: params[:studio][:song_name]
+      )
 
     when 'record_album'
-      @activity = Activity::RecordAlbum.(band: params[:band_id], studio: params[:studio][:id], recording_ids: params[:recording_ids])
+      context = Activity::RecordAlbum.call(
+        band: params[:band_id],
+        studio: params[:studio][:id],
+        recording_ids: params[:recording_ids]
+      )
 
     when 'release'
-      @activity = Activity::ReleaseRecording.(band: params[:band_id], recording: params[:recording][:id], hours: 24)
+      context = Activity::ReleaseRecording.call(
+        band: params[:band_id],
+        recording: params[:recording][:id],
+        hours: 24
+      )
 
     when 'rest'
-      @activity = Activity::Rest.(band: params[:band_id], hours: params[:hours]).activity
-
+      context = Activity::Rest.call(
+        band: params[:band_id],
+        hours: params[:hours]
+      )
     else
       raise ArgumentError.new("Unknown Type[#{params[:type]}]")
     end
 
-    if @activity.save
-      redirect_to band_path(@band), alert: "Activity started."
+    if context && context.activity.save
+      redirect_to band_path(band), alert: "Activity started."
     end
   end
 end
