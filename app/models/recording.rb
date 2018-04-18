@@ -31,7 +31,7 @@ class Recording < ApplicationRecord
   ## -- SCOPES
   scope :albums, ->{ where(kind: :album) }
   scope :singles, ->{ where(kind: :single) }
-  scope :released, ->{ where.not(released_at: nil) }
+  scope :released, ->{ where.not(release_at: nil) }
 
   ## — INSTANCE METHODS
   def full_recording
