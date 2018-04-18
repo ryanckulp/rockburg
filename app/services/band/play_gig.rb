@@ -44,8 +44,8 @@ class Band::PlayGig < ApplicationService
 
       gig.update_attributes(fans_gained: new_fans, money_made: revenue)
 
-      band.happenings.create(what: "You made §#{number_with_delimiter(revenue.to_i)} from #{pluralize(attendance.to_i, "person")} at your gig!")
-      band.happenings.create(what: "You gained #{pluralize(new_fans.to_i, "new fan")} and #{new_buzz} buzz at your gig!")
+      band.happenings.create(what: "You made §#{number_with_delimiter(revenue.to_i)} from #{pluralize(attendance.to_i, "person")} at your gig!", kind: 'earned')
+      band.happenings.create(what: "You gained #{pluralize(new_fans.to_i, "new fan")} and #{new_buzz} buzz at your gig!", kind: 'earned')
     end
   end
 end

@@ -52,6 +52,6 @@ class Band::RecordAlbum < ApplicationService
     Band::AddFatigue.(band: band, range: 25..75)
     Band::SpendMoney.(band: band, amount: studio.cost)
 
-    band.happenings.create(what: "#{band.name} recorded an album named #{album.name}! It has a quality score of #{album.quality} and cost #{as_game_currency(studio.cost)} to record.")
+    band.happenings.create(what: "#{band.name} recorded an album named #{album.name}! It has a quality score of #{album.quality} and cost #{as_game_currency(studio.cost)} to record.", kind: 'record_album')
   end
 end

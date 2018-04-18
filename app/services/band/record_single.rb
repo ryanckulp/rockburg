@@ -55,6 +55,6 @@ class Band::RecordSingle < ApplicationService
     Band::SpendMoney.(band: band, amount: studio.cost)
 
     song_names = recording.songs.map(&:name).join(',')
-    band.happenings.create(what: "#{band.name} made a recording of #{song_names}! It has a quality score of #{recording_quality} and cost #{as_game_currency(studio.cost)} to record.")
+    band.happenings.create(what: "#{band.name} made a recording of #{song_names}! It has a quality score of #{recording_quality} and cost #{as_game_currency(studio.cost)} to record.", kind: 'record_single')
   end
 end

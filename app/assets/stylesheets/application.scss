@@ -49,3 +49,32 @@ button {
     margin-bottom: 5px;
   }
 }
+
+.news {
+  margin: 0;
+  padding: 0;
+  max-height:510px;
+  overflow:auto;
+  list-style-type: none;
+  li {
+    margin:0;
+    padding:0 0 0 15px;
+    position: relative;
+    font-size: 95%;
+    small {
+      color: $gray-600;
+      margin-left: 5px;
+    }
+    &:before {
+      content: '';
+      width: 5px;
+      height: 14px;
+      display: block;
+      background: $gray-500;
+      left: 0;
+      top: 5px;
+      position: absolute;
+      border-radius: 100px;
+    }
+  }
+}

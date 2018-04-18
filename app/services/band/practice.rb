@@ -15,8 +15,8 @@ class Band::Practice < ApplicationService
     band.members.each do |member|
       result = Member::Practice.(member: member, hours: hours)
       if result.success?
-        band.happenings.create(what: "#{member.name}'s fatigue increased by #{result.fatigue_change}")
-        band.happenings.create(what: "#{member.name}'s skill increased by #{result.skill_change}")
+        band.happenings.create(what: "#{member.name}'s fatigue increased by #{result.fatigue_change}", kind: 'fatigue_increase')
+        band.happenings.create(what: "#{member.name}'s skill increased by #{result.skill_change}", kind: 'skill_increase')
       end
     end
   end

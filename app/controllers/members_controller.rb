@@ -27,7 +27,7 @@ class MembersController < ApplicationController
 
   def destroy
     if @member.destroy
-      @band.happenings.create(what: "#{@member.name} was fired!")
+      @band.happenings.create(what: "#{@member.name} was fired!", kind: 'fired')
       redirect_to band_path(@band), alert: "#{@member.name} was fired."
     else
       redirect_to root_path, alert: 'Something went wrong.'

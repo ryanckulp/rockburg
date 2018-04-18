@@ -8,7 +8,7 @@ class SongsController < ApplicationController
 
   def destroy
     if @song.destroy
-      @band.happenings.create(what: "#{@song.name} was thrown in the trash!")
+      @band.happenings.create(what: "#{@song.name} was thrown in the trash!", kind: 'trash')
       redirect_to band_path(@band), alert: "#{@song.name} was deleted."
     else
       redirect_to root_path, alert: 'Something went wrong.'

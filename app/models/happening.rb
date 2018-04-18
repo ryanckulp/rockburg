@@ -3,6 +3,7 @@
 # Table name: happenings
 #
 #  id         :bigint(8)        not null, primary key
+#  kind       :string
 #  what       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

@@ -40,6 +40,6 @@ class Band::WriteSong < ApplicationService
     song_quality = (total - ego_reduction).round
 
     context.song = band.songs.create!(name: Generator.song_title, quality: song_quality)
-    band.happenings.create(what: "#{band.name} wrote a new song called #{song.name}! It has a quality score of #{song.quality}.")
+    band.happenings.create(what: "#{band.name} wrote a new song called #{song.name}! It has a quality score of #{song.quality}.", kind: 'wrote_song')
   end
 end

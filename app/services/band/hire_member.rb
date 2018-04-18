@@ -19,6 +19,6 @@ class Band::HireMember < ApplicationService
     member_band = MemberBand.create!(band: band, skill: skill, member: member, joined_band_at: Time.current)
     # broadcast(:hire_member, band: band, member: member)
     Band::SpendMoney.(amount: member.cost_generator, band: band)
-    band.happenings.create(what: "#{member.name} was hired to #{member.primary_skill.verb} #{member.primary_skill.name}!")
+    band.happenings.create(what: "#{member.name} was hired to #{member.primary_skill.verb} #{member.primary_skill.name}!", kind: 'hired')
   end
 end

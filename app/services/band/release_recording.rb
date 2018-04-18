@@ -23,7 +23,7 @@ class Band::ReleaseRecording < ApplicationService
 
       Band::EarnMoney.(band: band, amount: recording.sales)
 
-      band.happenings.create(what: "You made #{as_game_currency(recording.sales)} from your release of #{recording.name}!")
+      band.happenings.create(what: "You made #{as_game_currency(recording.sales)} from your release of #{recording.name}!", kind: 'release_earned')
     end
   end
 end

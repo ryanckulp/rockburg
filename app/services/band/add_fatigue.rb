@@ -24,7 +24,7 @@ class Band::AddFatigue < ApplicationService
 
       member.save
 
-      band.happenings.create(what: "#{member.name}'s fatigue #{increased_by}")
+      band.happenings.create(what: "#{member.name}'s fatigue #{increased_by}", kind: 'fatigue_increase')
     end
   end
 end

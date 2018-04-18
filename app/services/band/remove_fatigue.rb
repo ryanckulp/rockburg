@@ -19,7 +19,7 @@ class Band::RemoveFatigue < ApplicationService
         decrease_fatigue_amount = [(rand(range) / 10.0).ceil, member.trait_fatigue].min
         member.trait_fatigue -= decrease_fatigue_amount
         member.save
-        band.happenings.create(what: "#{member.name}'s fatigue decreased by #{decrease_fatigue_amount}")
+        band.happenings.create(what: "#{member.name}'s fatigue decreased by #{decrease_fatigue_amount}", kind: 'fatigue_decrease')
       end
     end
   end
