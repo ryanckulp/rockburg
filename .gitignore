@@ -28,5 +28,3 @@ spec/examples.txt
 /config/master.key
 .foreman
 update_master
-# Ignore application configuration
-/config/application.yml

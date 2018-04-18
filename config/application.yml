@@ -1,0 +1,8 @@
+# Add configuration values here, as shown below.
+#
+# DON'T PUT SENSITIVE DATA IN HERE!!!!!
+
+SECONDS_PER_GAME_HOUR: 1
+
+production:
+  SECONDS_PER_GAME_HOUR: 60
