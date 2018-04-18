@@ -1,5 +1,5 @@
 class ManagersController < ApplicationController
-  before_action :authenticate_manager!
+  before_action :authenticate_manager!, except: [:show]
 
   def index
     @manager = current_manager
