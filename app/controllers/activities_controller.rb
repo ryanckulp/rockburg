@@ -42,7 +42,7 @@ class ActivitiesController < ApplicationController
       context = Activity::ReleaseRecording.call(
         band: params[:band_id],
         recording: params[:recording][:id],
-        hours: 24
+        hours: 1
       )
 
     when 'rest'
