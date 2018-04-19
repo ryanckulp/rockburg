@@ -4,6 +4,7 @@
 #
 #  id                     :bigint(8)        not null, primary key
 #  balance                :bigint(8)        default(0)
+#  bands_count            :integer          default(0)
 #  current_sign_in_at     :datetime
 #  current_sign_in_ip     :string
 #  email                  :string           default(""), not null

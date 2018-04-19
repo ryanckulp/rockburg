@@ -6,5 +6,6 @@
       - name
       - email
       - sign_in_count
+      - bands_count
       - balance
 
