@@ -70,27 +70,7 @@
       <% if @band.genre.min_members <= @band.members.count %>
       <% if @activity %>
       <div class="alert alert-success alert-block text-center current_activity">
-        Currently: <%= @activity.humanize_action %> for <b class="timecountdown"></b>
-        <script type="text/javascript">
-          $('.timecountdown').countdown('<%= @activity.ends_at %>', function(event) {
-            var str = "";
-           // if 0 number of days, show H:M:S
-           if(parseInt(event.strftime('%D')) == 0) {
-               str = event.strftime('%-H hour%!H %-M minute%!M %-S second%!S');
-               // if 0 days 0 hours, show M:S
-               if(parseInt(event.strftime('%H')) == 0) {
-                  str = event.strftime('%-M minute%!M %-S second%!S');
-                  // if 0 days 0 hours 0 minutes, show only Seconds
-                  if(parseInt(event.strftime('%M')) == 0) {
-                     str = event.strftime('%-S second%!S');
-                  }
-               }
-           } else {
-               str = event.strftime('%-D days %-H hours %-M min %-S sec');
-           }
-            $(this).html(str);
-          });
-        </script>
+        Currently: <%= @activity.humanize_action %> for <b data-endtimes="<%= @activity.ends_at %>"></b>
       </div>
       <% end %>
       <div class="activity_success alert alert-success alert-block text-center" style="display:none;"></div>

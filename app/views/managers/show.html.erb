@@ -11,6 +11,11 @@
         <h6 class="card-subtitle mb-2 text-muted"><%= band.genre.name %> - <%= band.genre.style %></h6>
         <p>Fans: <b><%= band.fans %></b> &bull; Buzz: <b><%= band.buzz %></b></p>
       </div>
+      <% if band.activities.current_activity.try(:last) %>
+      <small class="card-footer endtimes text-center bg-warning text-white">
+        Busy for <b data-endtimes="<%= band.activities.current_activity.try(:last).ends_at %>"></b>
+      </small>
+      <% end %>
     </div>
   </div>
   <% end %>
