@@ -33,7 +33,7 @@ $(document).ready(function() {
             }
          }
      } else {
-         str = event.strftime('%-D days %-H hours %-M min %-S sec');
+         str = event.strftime('%-D day%!D %-H hour%!H %-M minute%!M %-S second%!S');
      }
       $(this).html(str);
     });
