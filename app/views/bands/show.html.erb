@@ -336,10 +336,8 @@
   <% end %>
   <div class="col-sm-6">
     <h3>News</h3>
-    <ul style="" class="news">
-    <% @band.happenings.recent.limit(20).each do |happening| %>
-      <li class="<%= happening.kind %>"><%= happening.what %> <small><%= time_ago_in_words(happening.created_at, vague: true) %> ago</small></li>
-    <% end %>
+    <ol style="" class="news">
+    <%= render template: "bands/happenings" %>
     </ol>
   </div>
 </div>

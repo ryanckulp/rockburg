@@ -1,4 +1,6 @@
 class BandsController < ApplicationController
+  layout false, only: [:happenings]
+
   def index
   end
 
@@ -31,6 +33,11 @@ class BandsController < ApplicationController
       return
     end
     @activity = @band.activities.current_activity.try(:last)
+  end
+
+  def happenings
+
+    @band = Band.where(id: params[:id]).first
   end
 
   private

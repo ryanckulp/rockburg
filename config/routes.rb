@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     resources :activities
     resources :songs
     resources :recordings
+    member do
+      get 'happenings'
+    end
     resources :skills do
       resources :members do
         member do

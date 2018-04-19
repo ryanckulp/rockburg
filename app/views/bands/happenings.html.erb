@@ -1,0 +1,3 @@
+<% @band.happenings.recent.limit(20).each do |happening| %>
+  <li class="<%= happening.kind %>"><%= happening.what %> <small><%= time_ago_in_words(happening.created_at, vague: true) %> ago</small></li>
+<% end %>
