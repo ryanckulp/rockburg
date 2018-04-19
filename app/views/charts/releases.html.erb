@@ -25,7 +25,7 @@
       <td><%= release.name %></td>
       <td><%= link_to release.band.name, band_path(release.band) %></td>
       <td><%= release.band.genre.name %></td>
-      <td><%= link_to release.band.manager.name, manager_path(release.band.manager) %></td>
+      <td><%= link_to image_tag(release.band.manager.avatar_url, class: 'avatar rounded float-left', width: "25px") + release.band.manager.name, manager_path(release.band.manager) %></td>
       <td><%= release.sales %></td>
     </tr>
     <% end %>

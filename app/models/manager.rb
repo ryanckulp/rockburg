@@ -64,4 +64,8 @@ class Manager < ApplicationRecord
     cur_balance = self.update_balance
     self.update_columns(balance: cur_balance)
   end
+
+  def avatar_url
+    Manager::AvatarURL.(manager: self).result
+  end
 end
