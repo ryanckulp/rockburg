@@ -76,5 +76,11 @@ button {
       position: absolute;
       border-radius: 100px;
     }
+    &.earned { &:before { background: $success; } }
+    &.wrote_song { &:before { background: $teal; } }
+    &.fatigue_decrease { &:before { background: $success; } }
+    &.fatigue_increase { &:before { background: $danger; } }
+    &.record_single { &:before { background: $primary; } }
+    &.skill_increase { &:before { background: $purple; } }
   }
 }
